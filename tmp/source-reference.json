@@ -1,0 +1,164 @@
+[
+  {
+    "id": "ad_hominem",
+    "name": "Personal Attack",
+    "definition": "Attacking the person instead of addressing their argument.",
+    "examples": [
+      "\"Tomato says my blade matches the cuts in the missing carrot. But look at his bruised skin—why trust someone that rotten?\"",
+      "\"Tomato claims he saw me spill the soup. He can't even decide whether he's a fruit or a vegetable, so how could he identify the culprit?\""
+    ]
+  },
+  {
+    "id": "bandwagon",
+    "name": "Bandwagon",
+    "definition": "Claiming something is true because many people believe it.",
+    "examples": [
+      "\"Chef, every utensil in the drawer believes Tomato stole the salt. They can't all be wrong!\"",
+      "\"The forks, spoons, and knives all agree that gadgets make better witnesses than produce. You should believe my testimony over Tomato's.\""
+    ]
+  },
+  {
+    "id": "appeal_to_pity",
+    "name": "Appeal to Pity",
+    "definition": "Using sympathy in place of relevant evidence.",
+    "examples": [
+      "\"Please don't find me guilty of shredding the recipe, Chef. My handle is cracked, and I've already had such a difficult week!\"",
+      "\"If you rule that I ruined the soup, I'll be thrown into the junk drawer. You wouldn't make me spend the rest of my life alone in the dark, would you?\""
+    ]
+  },
+  {
+    "id": "irrelevant_authority",
+    "name": "Irrelevant Authority",
+    "definition": "Treating someone's opinion as proof when they lack relevant expertise.",
+    "examples": [
+      "\"The refrigerator's ice dispenser says Tomato stole the flour. It's an expert at making ice, so its judgment about theft must be correct.\"",
+      "\"The famous cake-decorating mixer says these scratches came from Tomato. Winning decorating contests makes it an expert in scratch identification!\""
+    ]
+  },
+  {
+    "id": "false_dilemma",
+    "name": "False Dilemma",
+    "definition": "Presenting only two choices when other possibilities exist.",
+    "examples": [
+      "\"Chef, either you find Tomato guilty of spilling the oil, or you're saying that spilling oil on the floor is acceptable.\"",
+      "\"Either Tomato stole the recipe, or I did. And I certainly didn't!\" (Other kitchen residents also had access.)"
+    ]
+  },
+  {
+    "id": "hasty_generalization",
+    "name": "Hasty Generalization",
+    "definition": "Drawing a broad conclusion from too little evidence.",
+    "examples": [
+      "\"One tomato rolled off the counter yesterday. That proves tomatoes can't control where they go, so this Tomato must have rolled into the cake.\"",
+      "\"Tomato got one detail wrong about breakfast. Everything he says about the missing butter must be false.\""
+    ]
+  },
+  {
+    "id": "straw_man",
+    "name": "Straw Man",
+    "definition": "Distorting someone's argument to make it easier to attack.",
+    "examples": [
+      "Tomato: \"The peeler should be kept in a protective cover.\" Peeler: \"Tomato wants every gadget locked away forever so nobody can cook!\"",
+      "Tomato: \"The crumbs on Toaster don't prove he stole the bread.\" Toaster: \"Tomato thinks we should ignore all physical evidence!\""
+    ]
+  },
+  {
+    "id": "red_herring",
+    "name": "Red Herring",
+    "definition": "Introducing an irrelevant issue to distract from the original question.",
+    "examples": [
+      "\"Tomato asks why there's frosting caught in my whisk wires. But Chef, shouldn't we be discussing how filthy the oven is?\"",
+      "\"Before we discuss whether my cord knocked over the milk, let's talk about Tomato leaving seeds all over your cutting board.\""
+    ]
+  },
+  {
+    "id": "whataboutism",
+    "name": "Whataboutism",
+    "definition": "Deflecting criticism by pointing to someone else's similar wrongdoing.",
+    "examples": [
+      "\"Tomato accuses me of dripping grease onto the recipe. But he dripped juice onto the shopping list yesterday!\"",
+      "\"Why should I answer Tomato's accusation that I blocked the sink? Tomato clogged the drain with his sticker last week!\""
+    ]
+  },
+  {
+    "id": "circular_reasoning",
+    "name": "Circular Reasoning",
+    "definition": "Using the conclusion itself as support for the conclusion.",
+    "examples": [
+      "\"My account of the missing cheese is accurate because I'm a reliable grater. You can tell I'm reliable because my account is accurate.\"",
+      "\"Tomato stole the basil because he's the thief in this kitchen. How do I know he's the thief? Because he stole the basil.\""
+    ]
+  },
+  {
+    "id": "appeal_to_ignorance",
+    "name": "Appeal to Ignorance",
+    "definition": "Claiming something is true because it has not been proven false, or vice versa.",
+    "examples": [
+      "\"Tomato can't prove he never entered the pantry last night. Therefore, he entered it and stole the sugar.\"",
+      "\"Nobody has proved that my blades caused the scratches on the counter. That proves I'm innocent.\""
+    ]
+  },
+  {
+    "id": "false_cause",
+    "name": "False Cause",
+    "definition": "Assuming that because one event followed another, the first caused the second.",
+    "examples": [
+      "\"The soup curdled immediately after Tomato rolled beside the stove. His arrival must have curdled it!\"",
+      "\"The kitchen lights went out just after Tomato accused me. His accusation must have caused the power failure!\""
+    ]
+  },
+  {
+    "id": "slippery_slope",
+    "name": "Slippery Slope",
+    "definition": "Claiming one step will lead to an extreme outcome without enough support.",
+    "examples": [
+      "\"If you let Tomato keep that stolen basil leaf, next he'll take a whole bunch, then empty the pantry, and soon there won't be a single ingredient left!\"",
+      "\"If Tomato is allowed to question my testimony, every ingredient will start questioning every gadget. Soon the kitchen will be in chaos and dinner will never be served!\""
+    ]
+  },
+  {
+    "id": "false_analogy",
+    "name": "False Analogy",
+    "definition": "Treating two things as equivalent despite differences that matter.",
+    "examples": [
+      "\"Chef, you throw away empty tomato cans. This Tomato has no filling inside him either, so you should throw him away too!\"",
+      "\"You unplug a blender when it makes too much noise. Tomato is making noise by objecting, so you should silence him for the rest of the trial.\""
+    ]
+  },
+  {
+    "id": "equivocation",
+    "name": "Equivocation",
+    "definition": "Switching between different meanings of the same word during an argument.",
+    "examples": [
+      "\"Chef said we need a sharp witness. My blades are sharp, so my testimony must be the most intelligent.\"",
+      "\"Tomato admitted he was ripe for an argument. Ripe means ready, so he admitted he was ready to start the fight!\""
+    ]
+  },
+  {
+    "id": "loaded_question",
+    "name": "Loaded Question",
+    "definition": "Asking a question that assumes an unproven claim.",
+    "examples": [
+      "\"Tomato, where did you hide the measuring spoon you stole?\" (It hasn't been established that Tomato stole it.)",
+      "\"Have you stopped sneaking into the refrigerator after midnight?\" (Either yes or no accepts that Tomato previously did this.)"
+    ]
+  },
+  {
+    "id": "cherry_picking",
+    "name": "Cherry-Picking",
+    "definition": "Selecting evidence that supports a claim while ignoring relevant evidence against it.",
+    "examples": [
+      "\"This camera image shows Tomato beside the broken plate!\" (The gadget skips the next frame, which shows its own cord pulling the plate off the counter.)",
+      "\"The salt shaker heard Tomato threaten to 'crush' Garlic!\" (Ignores the rest of the conversation: Tomato was reading the chef's recipe aloud.)"
+    ]
+  },
+  {
+    "id": "moving_goalposts",
+    "name": "Moving the Goalposts",
+    "definition": "Changing the standard of proof after the original standard has been met.",
+    "examples": [
+      "\"Show us a photo proving you were in the fruit bowl when the spill happened.\" Tomato provides one. \"A photo isn't enough. Now you need a video!\"",
+      "\"I'll accept your innocence if one witness confirms you never touched the oven.\" The kettle confirms it. \"Actually, I'll need three witnesses—and none of them can be appliances.\""
+    ]
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "schedule": [
+    {"question": 1, "unlock": ["ad_hominem", "bandwagon"]},
+    {"question": 6, "unlock": ["false_dilemma"]},
+    {"question": 11, "unlock": ["appeal_to_pity"]},
+    {"question": 16, "unlock": ["irrelevant_authority"]},
+    {"question": 21, "unlock": ["hasty_generalization"]},
+    {"question": 26, "unlock": ["straw_man"]},
+    {"question": 30, "unlock": ["red_herring"]},
+    {"question": 35, "unlock": ["whataboutism"]},
+    {"question": 40, "unlock": ["circular_reasoning"]},
+    {"question": 45, "unlock": ["appeal_to_ignorance"]},
+    {"question": 50, "unlock": ["false_cause"]},
+    {"question": 55, "unlock": ["slippery_slope"]},
+    {"question": 60, "unlock": ["false_analogy"]},
+    {"question": 65, "unlock": ["equivocation"]},
+    {"question": 70, "unlock": ["loaded_question"]},
+    {"question": 75, "unlock": ["cherry_picking"]},
+    {"question": 80, "unlock": ["moving_goalposts"]}
+  ]
+}

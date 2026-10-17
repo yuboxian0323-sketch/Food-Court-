@@ -1,0 +1,431 @@
+{
+  "questions": [
+    {
+      "id": "ref_01_1",
+      "fallacy": "ad_hominem",
+      "argument": "\"Tomato says my blade matches the cuts in the missing carrot. But look at his bruised skin - why trust someone that rotten?\"",
+      "explanation": "Bruised skin does not answer the evidence about the blade. The gadget attacks Tomato instead of his argument. That is a Personal Attack.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_01_2",
+      "fallacy": "ad_hominem",
+      "argument": "\"Tomato claims he saw me spill the soup. He can't even decide whether he's a fruit or a vegetable, so how could he identify the culprit?\"",
+      "explanation": "Being a fruit or a vegetable does not tell us whether Tomato saw the spill. The gadget attacks him instead of the evidence. That is a Personal Attack.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_02_1",
+      "fallacy": "bandwagon",
+      "argument": "\"Chef, every utensil in the drawer believes Tomato stole the salt. They can't all be wrong!\"",
+      "explanation": "Many utensils believing Tomato stole the salt is not evidence that he did. Popular beliefs can be wrong. That is Bandwagon.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_02_2",
+      "fallacy": "bandwagon",
+      "argument": "\"The forks, spoons, and knives all agree that gadgets make better witnesses than produce. You should believe my testimony over Tomato's.\"",
+      "explanation": "The gadgets agreeing about witnesses does not make them more reliable. Popularity is used in place of evidence. That is Bandwagon.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_03_1",
+      "fallacy": "appeal_to_pity",
+      "argument": "\"Please don't find me guilty of shredding the recipe, Chef. My handle is cracked, and I've already had such a difficult week!\"",
+      "explanation": "A cracked handle and a difficult week do not show who shredded the recipe. The gadget asks for sympathy instead of giving evidence. That is Appeal to Pity.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_03_2",
+      "fallacy": "appeal_to_pity",
+      "argument": "\"If you rule that I ruined the soup, I'll be thrown into the junk drawer. You wouldn't make me spend the rest of my life alone in the dark, would you?\"",
+      "explanation": "Being sent to the junk drawer sounds sad, but it does not show who ruined the soup. Sympathy replaces evidence. That is Appeal to Pity.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_04_1",
+      "fallacy": "irrelevant_authority",
+      "argument": "\"The refrigerator's ice dispenser says Tomato stole the flour. It's an expert at making ice, so its judgment about theft must be correct.\"",
+      "explanation": "Knowing how to make ice does not make someone an expert on theft. The gadget relies on an unrelated expert. That is Irrelevant Authority.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_04_2",
+      "fallacy": "irrelevant_authority",
+      "argument": "\"The famous cake-decorating mixer says these scratches came from Tomato. Winning decorating contests makes it an expert in scratch identification!\"",
+      "explanation": "Winning cake contests does not prove skill at identifying scratches. The gadget uses the wrong kind of expertise. That is Irrelevant Authority.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_05_1",
+      "fallacy": "false_dilemma",
+      "argument": "\"Chef, either you find Tomato guilty of spilling the oil, or you're saying that spilling oil on the floor is acceptable.\"",
+      "explanation": "The Chef can reject this accusation and still say spills are wrong. The gadget hides other possible choices. That is a False Dilemma.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_05_2",
+      "fallacy": "false_dilemma",
+      "argument": "\"Either Tomato stole the recipe, or I did. And I certainly didn't!\" (Other kitchen residents also had access.)",
+      "explanation": "Other residents had access too. The gadget pretends only two suspects are possible. That is a False Dilemma.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_06_1",
+      "fallacy": "hasty_generalization",
+      "argument": "\"One tomato rolled off the counter yesterday. That proves tomatoes can't control where they go, so this Tomato must have rolled into the cake.\"",
+      "explanation": "One tomato falling does not prove all tomatoes lack control, or that this one hit the cake. The claim goes beyond the evidence. That is Hasty Generalization.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_06_2",
+      "fallacy": "hasty_generalization",
+      "argument": "\"Tomato got one detail wrong about breakfast. Everything he says about the missing butter must be false.\"",
+      "explanation": "One wrong breakfast detail does not make every statement false. A tiny sample is used to judge everything. That is Hasty Generalization.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_07_1",
+      "fallacy": "straw_man",
+      "argument": "Tomato: \"The peeler should be kept in a protective cover.\" Peeler: \"Tomato wants every gadget locked away forever so nobody can cook!\"",
+      "explanation": "Tomato asked for a protective cover, not for every gadget to be locked away. The peeler attacks a changed version of the idea. That is a Straw Man.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_07_2",
+      "fallacy": "straw_man",
+      "argument": "Tomato: \"The crumbs on Toaster don't prove he stole the bread.\" Toaster: \"Tomato thinks we should ignore all physical evidence!\"",
+      "explanation": "Tomato questions one clue, not all physical evidence. Toaster changes his claim into an easier one to attack. That is a Straw Man.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_08_1",
+      "fallacy": "red_herring",
+      "argument": "\"Tomato asks why there's frosting caught in my whisk wires. But Chef, shouldn't we be discussing how filthy the oven is?\"",
+      "explanation": "The dirty oven does not explain frosting on the whisk. A different issue distracts from the original question. That is a Red Herring.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_08_2",
+      "fallacy": "red_herring",
+      "argument": "\"Before we discuss whether my cord knocked over the milk, let's talk about Tomato leaving seeds all over your cutting board.\"",
+      "explanation": "Seeds on the board do not explain whether the cord spilled milk. Changing topics avoids the question. That is a Red Herring.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_09_1",
+      "fallacy": "whataboutism",
+      "argument": "\"Tomato accuses me of dripping grease onto the recipe. But he dripped juice onto the shopping list yesterday!\"",
+      "explanation": "Tomato dripping juice does not answer whether the gadget dripped grease. Pointing to similar wrongdoing avoids the criticism. That is Whataboutism.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_09_2",
+      "fallacy": "whataboutism",
+      "argument": "\"Why should I answer Tomato's accusation that I blocked the sink? Tomato clogged the drain with his sticker last week!\"",
+      "explanation": "Tomato blocking a drain before does not explain who blocked it now. The gadget points back at its accuser. That is Whataboutism.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_10_1",
+      "fallacy": "circular_reasoning",
+      "argument": "\"My account of the missing cheese is accurate because I'm a reliable grater. You can tell I'm reliable because my account is accurate.\"",
+      "explanation": "The grater calls its story accurate because it is reliable, then calls itself reliable because of the same story. Nothing new supports it. That is Circular Reasoning.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_10_2",
+      "fallacy": "circular_reasoning",
+      "argument": "\"Tomato stole the basil because he's the thief in this kitchen. How do I know he's the thief? Because he stole the basil.\"",
+      "explanation": "Calling Tomato a thief just repeats the claim that he stole basil. A claim cannot prove itself. That is Circular Reasoning.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_11_1",
+      "fallacy": "appeal_to_ignorance",
+      "argument": "\"Tomato can't prove he never entered the pantry last night. Therefore, he entered it and stole the sugar.\"",
+      "explanation": "Not proving he stayed away does not prove Tomato entered the pantry. A missing disproof is treated as proof. That is Appeal to Ignorance.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_11_2",
+      "fallacy": "appeal_to_ignorance",
+      "argument": "\"Nobody has proved that my blades caused the scratches on the counter. That proves I'm innocent.\"",
+      "explanation": "Lack of proof that the blades made scratches does not prove they did not. Missing evidence is not proof of the opposite. That is Appeal to Ignorance.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_12_1",
+      "fallacy": "false_cause",
+      "argument": "\"The soup curdled immediately after Tomato rolled beside the stove. His arrival must have curdled it!\"",
+      "explanation": "The soup curdling after Tomato arrived does not prove he caused it. Happening afterward is not enough to show a cause. That is False Cause.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_12_2",
+      "fallacy": "false_cause",
+      "argument": "\"The kitchen lights went out just after Tomato accused me. His accusation must have caused the power failure!\"",
+      "explanation": "The lights failing after an accusation does not show the words caused it. The order of events is treated as proof. That is False Cause.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_13_1",
+      "fallacy": "slippery_slope",
+      "argument": "\"If you let Tomato keep that stolen basil leaf, next he'll take a whole bunch, then empty the pantry, and soon there won't be a single ingredient left!\"",
+      "explanation": "Keeping one leaf does not prove Tomato will empty the pantry. The gadget predicts bigger and bigger problems without support. That is a Slippery Slope.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_13_2",
+      "fallacy": "slippery_slope",
+      "argument": "\"If Tomato is allowed to question my testimony, every ingredient will start questioning every gadget. Soon the kitchen will be in chaos and dinner will never be served!\"",
+      "explanation": "Questioning one witness does not prove dinner will never be served. The gadget jumps to an extreme outcome. That is a Slippery Slope.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_14_1",
+      "fallacy": "false_analogy",
+      "argument": "\"Chef, you throw away empty tomato cans. This Tomato has no filling inside him either, so you should throw him away too!\"",
+      "explanation": "An empty can and a living tomato differ in ways that matter. Throwing away one does not justify throwing away the other. That is a False Analogy.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_14_2",
+      "fallacy": "false_analogy",
+      "argument": "\"You unplug a blender when it makes too much noise. Tomato is making noise by objecting, so you should silence him for the rest of the trial.\"",
+      "explanation": "A noisy blender and a defendant objecting have different roles. Unplugging one does not justify silencing the other. That is a False Analogy.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_15_1",
+      "fallacy": "equivocation",
+      "argument": "\"Chef said we need a sharp witness. My blades are sharp, so my testimony must be the most intelligent.\"",
+      "explanation": "Sharp means clever for a witness, but it means able to cut for blades. The gadget switches meanings to make its claim. That is Equivocation.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_15_2",
+      "fallacy": "equivocation",
+      "argument": "\"Tomato admitted he was ripe for an argument. Ripe means ready, so he admitted he was ready to start the fight!\"",
+      "explanation": "Ripe for an argument is a figure of speech, not an admission of starting a fight. The meaning changes in the argument. That is Equivocation.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_16_1",
+      "fallacy": "loaded_question",
+      "argument": "\"Tomato, where did you hide the measuring spoon you stole?\" (It hasn't been established that Tomato stole it.)",
+      "explanation": "The question assumes Tomato stole the spoon before that has been proved. Answering where would accept that hidden claim. That is a Loaded Question.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_16_2",
+      "fallacy": "loaded_question",
+      "argument": "\"Have you stopped sneaking into the refrigerator after midnight?\" (Either yes or no accepts that Tomato previously did this.)",
+      "explanation": "Yes or no would accept that Tomato used to sneak into the fridge. That has not been proved. That is a Loaded Question.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_17_1",
+      "fallacy": "cherry_picking",
+      "argument": "\"This camera image shows Tomato beside the broken plate!\" (The gadget skips the next frame, which shows its own cord pulling the plate off the counter.)",
+      "explanation": "The gadget shows one frame and hides the next frame with important evidence about its cord. Choosing only helpful evidence is Cherry-Picking.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_17_2",
+      "fallacy": "cherry_picking",
+      "argument": "\"The salt shaker heard Tomato threaten to 'crush' Garlic!\" (Ignores the rest of the conversation: Tomato was reading the chef's recipe aloud.)",
+      "explanation": "The full conversation shows Tomato reading a recipe. Leaving that out changes what the words seem to mean. That is Cherry-Picking.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_18_1",
+      "fallacy": "moving_goalposts",
+      "argument": "\"Show us a photo proving you were in the fruit bowl when the spill happened.\" Tomato provides one. \"A photo isn't enough. Now you need a video!\"",
+      "explanation": "Tomato supplies the requested photo, then the gadget demands a video. It changes the rule after the original demand is met. That is Moving the Goalposts.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "ref_18_2",
+      "fallacy": "moving_goalposts",
+      "argument": "\"I'll accept your innocence if one witness confirms you never touched the oven.\" The kettle confirms it. \"Actually, I'll need three witnesses - and none of them can be appliances.\"",
+      "explanation": "The gadget asks for one witness, gets one, then demands three and excludes appliances. It changes the standard after it is met. That is Moving the Goalposts.",
+      "source": "Project plan Section 6.1; explanation adapted for gameplay"
+    },
+    {
+      "id": "q001",
+      "fallacy": "ad_hominem",
+      "argument": "The carrot says he's innocent, but he's wrinkly and orange. Never trust a wrinkly vegetable!",
+      "explanation": "The speaker attacks a person's traits instead of checking the evidence. Those traits do not prove the claim wrong. That is a Personal Attack.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q002",
+      "fallacy": "ad_hominem",
+      "argument": "The defense lawyer is a potato. Potatoes have eyes but never see the truth  -  so ignore everything he says!",
+      "explanation": "The speaker attacks a person's traits instead of checking the evidence. Those traits do not prove the claim wrong. That is a Personal Attack.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q003",
+      "fallacy": "ad_hominem",
+      "argument": "The witness, Mr. Celery, is boring and stringy. That proves his story about the missing recipe is false.",
+      "explanation": "The speaker attacks a person's traits instead of checking the evidence. Those traits do not prove the claim wrong. That is a Personal Attack.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q004",
+      "fallacy": "ad_hominem",
+      "argument": "Why listen to a vegetable who smells like dirt? Case closed  -  into the pot!",
+      "explanation": "The speaker attacks a person's traits instead of checking the evidence. Those traits do not prove the claim wrong. That is a Personal Attack.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q005",
+      "fallacy": "ad_hominem",
+      "argument": "The tomato can't be right about the law. She can't even decide if she's a fruit or a vegetable!",
+      "explanation": "The speaker attacks a person's traits instead of checking the evidence. Those traits do not prove the claim wrong. That is a Personal Attack.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q006",
+      "fallacy": "bandwagon",
+      "argument": "Every chef in town makes vegetable soup, so cooking this vegetable must be the right thing to do!",
+      "explanation": "What many people like or believe does not prove what is right or true. The speaker uses popularity as proof. That is Bandwagon.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q007",
+      "fallacy": "bandwagon",
+      "argument": "Millions of people like roasted carrots. So clearly the law says carrots should be roasted!",
+      "explanation": "What many people like or believe does not prove what is right or true. The speaker uses popularity as proof. That is Bandwagon.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q008",
+      "fallacy": "bandwagon",
+      "argument": "All the cool kitchens are cooking veggies this season. The jury should follow the trend!",
+      "explanation": "What many people like or believe does not prove what is right or true. The speaker uses popularity as proof. That is Bandwagon.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q009",
+      "fallacy": "bandwagon",
+      "argument": "My cooking video got a million likes, so my argument must be correct, Your Honor.",
+      "explanation": "What many people like or believe does not prove what is right or true. The speaker uses popularity as proof. That is Bandwagon.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q010",
+      "fallacy": "bandwagon",
+      "argument": "Nobody I know has ever let a vegetable go free. So letting this one go would be wrong.",
+      "explanation": "What many people like or believe does not prove what is right or true. The speaker uses popularity as proof. That is Bandwagon.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q011",
+      "fallacy": "false_dilemma",
+      "argument": "Either we cook the carrot today, or the whole kitchen goes hungry forever!",
+      "explanation": "The speaker presents only two choices, but other choices are possible. Leaving those out is a False Dilemma.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q012",
+      "fallacy": "false_dilemma",
+      "argument": "You're either on the chef's side, or you hate delicious food. Which is it, jury?",
+      "explanation": "The speaker presents only two choices, but other choices are possible. Leaving those out is a False Dilemma.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q013",
+      "fallacy": "false_dilemma",
+      "argument": "This vegetable must be soup or salad. There is no other choice!",
+      "explanation": "The speaker presents only two choices, but other choices are possible. Leaving those out is a False Dilemma.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q014",
+      "fallacy": "false_dilemma",
+      "argument": "If we don't cook him now, he'll take over the whole kitchen. Pot or chaos  -  you decide!",
+      "explanation": "The speaker presents only two choices, but other choices are possible. Leaving those out is a False Dilemma.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "q015",
+      "fallacy": "false_dilemma",
+      "argument": "Either the carrot admits he's guilty, or he's calling the judge a liar.",
+      "explanation": "The speaker presents only two choices, but other choices are possible. Leaving those out is a False Dilemma.",
+      "source": "Project plan Section 6.5 draft; requires content review"
+    },
+    {
+      "id": "prototype_q001",
+      "fallacy": "ad_hominem",
+      "argument": "Tomato says the lid was already broken. But his skin is all wrinkly, so we should ignore his story!",
+      "explanation": "The gadget attacks how Tomato looks instead of checking his evidence about the lid. That is a Personal Attack.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q002",
+      "fallacy": "ad_hominem",
+      "argument": "Tomato found flour on my handle. But he has a silly green hat, so his evidence means nothing!",
+      "explanation": "A silly hat does not make the flour disappear. The gadget attacks Tomato instead of answering his evidence. That is a Personal Attack.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q003",
+      "fallacy": "ad_hominem",
+      "argument": "Tomato says I spilled the milk. He cannot even decide if he is a fruit or a vegetable. Do not trust him!",
+      "explanation": "What kind of food Tomato is does not tell us who spilled the milk. Attacking him avoids the evidence. That is a Personal Attack.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q004",
+      "fallacy": "ad_hominem",
+      "argument": "Tomato saw me near the missing bread. He is a squishy little snack, so his story must be false!",
+      "explanation": "Being squishy does not make a witness wrong. The gadget insults Tomato instead of checking his story. That is a Personal Attack.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q005",
+      "fallacy": "ad_hominem",
+      "argument": "Tomato says my cord knocked over the bowl. Look at his muddy shoes! His argument is worthless.",
+      "explanation": "Muddy shoes do not answer the claim about the cord. The gadget attacks the speaker instead of the idea. That is a Personal Attack.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q006",
+      "fallacy": "bandwagon",
+      "argument": "Every fork in the drawer says Tomato took the salt. So Tomato must have taken it!",
+      "explanation": "Many forks believing a claim is not proof. We still need evidence about the missing salt. That is Bandwagon.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q007",
+      "fallacy": "bandwagon",
+      "argument": "All the cool gadgets say my story is true. You should believe it too, Chef!",
+      "explanation": "Being popular does not make a story true. The gadget needs evidence, not a crowd of supporters. That is Bandwagon.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q008",
+      "fallacy": "bandwagon",
+      "argument": "My claim that Tomato broke the plate got a thousand likes. That proves he did it!",
+      "explanation": "Likes show that people support a claim, not that the claim is true. We need evidence about the plate. That is Bandwagon.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q009",
+      "fallacy": "bandwagon",
+      "argument": "The spoons, forks, and cups agree that I am innocent. With so many fans, I must be right!",
+      "explanation": "A crowd agreeing is not proof of innocence. The gadget uses popularity instead of evidence. That is Bandwagon.",
+      "source": "Preserved prototype draft; requires content review"
+    },
+    {
+      "id": "prototype_q010",
+      "fallacy": "bandwagon",
+      "argument": "Most kitchen gadgets believe Tomato hid the recipe. Surely the most popular answer is the correct one!",
+      "explanation": "The most popular answer can still be wrong. We need evidence about the recipe, not a vote. That is Bandwagon.",
+      "source": "Preserved prototype draft; requires content review"
+    }
+  ]
+}
