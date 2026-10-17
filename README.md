@@ -1,1 +1,6 @@
-Food Court Game project
+# Food Court Game project
+
+
+## Libraries:
+Pygame - https://www.pygame.org/docs/
+HTML5 - 
