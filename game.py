@@ -8,6 +8,7 @@ from systems.session import Session
 from systems.tomato import Tomato
 from systems.scene_assets import SceneAssets
 from ui.widgets import UI
+from entities.chef import Chef
 
 
 class ErrorScene(Scene):
@@ -27,10 +28,12 @@ class Game:
         pygame.font.init()
         self.screen = pygame.display.set_mode((s.WIDTH, s.HEIGHT))
         pygame.display.set_caption('Food Court')
-        self.ui = UI()
         self.tomato = Tomato()
+        self.chef = Chef("assets/chef_sheet.png")
         self.scene_assets = SceneAssets()
         self.running = True
+        self.ui = UI()
+
         try:
             self.bank = QuestionBank(s.ROOT / 'data')
             self.session = Session(self.bank)

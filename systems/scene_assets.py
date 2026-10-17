@@ -1,5 +1,6 @@
 """Load inspected source artwork without altering it on disk."""
 from functools import lru_cache
+import math
 import pygame
 import settings as s
 from entities.character import _draw_chef
@@ -116,8 +117,17 @@ class SceneAssets:
         else:
             pygame.draw.polygon(screen,'#b7b9b5',[(90,590),(265,590),(290,540),(110,540)])
         if self.tomato.frames:
-            index={'normal':0,'nervous':2,'panic':3}[session.tomato_expression]
-            self.tomato.draw(screen,index,s.TOMATO_ANCHOR,s.TOMATO_WIDTH)
+            index=4 if session.stage=='MISTAKE_ANIMATION' else {
+                'normal':0,'nervous':2,'panic':3
+            }[session.tomato_expression]
+            anchor=s.TOMATO_ANCHOR
+            if session.stage=='MISTAKE_ANIMATION':
+                elapsed=session.banner_elapsed
+                decay=max(0,1-elapsed/session.banner_duration)
+                shake_x=round(math.sin(elapsed*48)*7*decay)
+                shake_y=round((math.cos(elapsed*48)-1)*2*decay)
+                anchor=(anchor[0]+shake_x,anchor[1]+shake_y)
+            self.tomato.draw(screen,index,anchor,s.TOMATO_WIDTH)
         else:
             pygame.draw.circle(screen,'#c64f35',(s.TOMATO_ANCHOR[0],s.TOMATO_ANCHOR[1]-90),90)
         desk=pygame.Rect(s.FRONT_DESK_FOREGROUND)

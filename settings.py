@@ -72,7 +72,7 @@ SEPARATION_FACE_HYSTERESIS = 24.0
 ESCAPE_DELAY = 0.25
 
 # Courtroom composition and foreground occlusion, in the 1280x720 scene.
-COURTROOM_ASSET = ROOT / 'assets/images.jpeg'
+COURTROOM_ASSET = ROOT / 'assets/Background.png'
 KNIFE_ASSET = ROOT / 'assets/Knife_SpriteSheet.png'
 BOARD_ASSET = ROOT / 'assets/plank-chopping-board-cartoon-illustration-vector.jpg'
 KNIFE_ANCHOR = (240, 618)

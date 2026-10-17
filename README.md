@@ -55,16 +55,6 @@ The 1280×720 courtroom uses a slim HUD, dialogue above the answer surface, Knif
 
 The main loop is asynchronous, processes input before updating time, and uses delta time throughout. A valid click with positive time remaining wins its frame's timeout race. One guarded method applies score, HP, outcome counts, and feedback once. There are no new runtime dependencies beyond Pygame.
 
-## Verification
-
-```sh
-.venv/bin/python -m unittest discover -s tests -v
-```
-
-Automated checks cover scoring/damage, exactly-once resolution, click/timeout timing, five-mistake game over, complete restart, all unlock thresholds, unique choices, eligible shuffle bags, moving hitboxes, containment/non-overlap at 2–8 targets, large frames, frame-rate consistency, expressions, animation/tint triggers, missing art, and text fit.
-
-Rendered screens have been visually inspected for reading, answering, correct objection, wrong answer, timeout, results, restart, unlock cards, and eight-label play. Automated interaction drove the actual game scene through question 80. Native window launch was checked; native UI automation was unavailable because Computer Use permissions were not granted. Timing, readability, educational accuracy, and difficulty still need human playtesting on target computers.
-
 This delivery focuses on core gameplay. Tutorial, dictionary/guide, title/menu expansion, persistent high score, final character art, sound, browser packaging, and Windows/Linux verification remain outside this task. The old disabled Pause/Guide/Mute placeholders were removed rather than left as nonfunctional controls.
 
 ## Continuous shared-box motion
