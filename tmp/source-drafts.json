@@ -1,0 +1,77 @@
+[
+  {
+    "id": "q001",
+    "fallacy": "ad_hominem",
+    "argument": "The carrot says he's innocent, but he's wrinkly and orange. Never trust a wrinkly vegetable!"
+  },
+  {
+    "id": "q002",
+    "fallacy": "ad_hominem",
+    "argument": "The defense lawyer is a potato. Potatoes have eyes but never see the truth  -  so ignore everything he says!"
+  },
+  {
+    "id": "q003",
+    "fallacy": "ad_hominem",
+    "argument": "The witness, Mr. Celery, is boring and stringy. That proves his story about the missing recipe is false."
+  },
+  {
+    "id": "q004",
+    "fallacy": "ad_hominem",
+    "argument": "Why listen to a vegetable who smells like dirt? Case closed  -  into the pot!"
+  },
+  {
+    "id": "q005",
+    "fallacy": "ad_hominem",
+    "argument": "The tomato can't be right about the law. She can't even decide if she's a fruit or a vegetable!"
+  },
+  {
+    "id": "q006",
+    "fallacy": "bandwagon",
+    "argument": "Every chef in town makes vegetable soup, so cooking this vegetable must be the right thing to do!"
+  },
+  {
+    "id": "q007",
+    "fallacy": "bandwagon",
+    "argument": "Millions of people like roasted carrots. So clearly the law says carrots should be roasted!"
+  },
+  {
+    "id": "q008",
+    "fallacy": "bandwagon",
+    "argument": "All the cool kitchens are cooking veggies this season. The jury should follow the trend!"
+  },
+  {
+    "id": "q009",
+    "fallacy": "bandwagon",
+    "argument": "My cooking video got a million likes, so my argument must be correct, Your Honor."
+  },
+  {
+    "id": "q010",
+    "fallacy": "bandwagon",
+    "argument": "Nobody I know has ever let a vegetable go free. So letting this one go would be wrong."
+  },
+  {
+    "id": "q011",
+    "fallacy": "false_dilemma",
+    "argument": "Either we cook the carrot today, or the whole kitchen goes hungry forever!"
+  },
+  {
+    "id": "q012",
+    "fallacy": "false_dilemma",
+    "argument": "You're either on the chef's side, or you hate delicious food. Which is it, jury?"
+  },
+  {
+    "id": "q013",
+    "fallacy": "false_dilemma",
+    "argument": "This vegetable must be soup or salad. There is no other choice!"
+  },
+  {
+    "id": "q014",
+    "fallacy": "false_dilemma",
+    "argument": "If we don't cook him now, he'll take over the whole kitchen. Pot or chaos  -  you decide!"
+  },
+  {
+    "id": "q015",
+    "fallacy": "false_dilemma",
+    "argument": "Either the carrot admits he's guilty, or he's calling the judge a liar."
+  }
+]

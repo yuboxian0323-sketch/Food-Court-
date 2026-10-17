@@ -1,0 +1,112 @@
+{
+  "fallacies": [
+    {
+      "id": "ad_hominem",
+      "name": "Personal Attack",
+      "definition": "Attacking the person instead of addressing their argument.",
+      "example": "\"Tomato says my blade matches the cuts in the missing carrot. But look at his bruised skin - why trust someone that rotten?\""
+    },
+    {
+      "id": "bandwagon",
+      "name": "Bandwagon",
+      "definition": "Claiming something is true because many people believe it.",
+      "example": "\"Chef, every utensil in the drawer believes Tomato stole the salt. They can't all be wrong!\""
+    },
+    {
+      "id": "appeal_to_pity",
+      "name": "Appeal to Pity",
+      "definition": "Using sympathy in place of relevant evidence.",
+      "example": "\"Please don't find me guilty of shredding the recipe, Chef. My handle is cracked, and I've already had such a difficult week!\""
+    },
+    {
+      "id": "irrelevant_authority",
+      "name": "Appeal to Irrelevant Authority",
+      "definition": "Treating someone's opinion as proof when they lack relevant expertise.",
+      "example": "\"The refrigerator's ice dispenser says Tomato stole the flour. It's an expert at making ice, so its judgment about theft must be correct.\""
+    },
+    {
+      "id": "false_dilemma",
+      "name": "False Dilemma",
+      "definition": "Presenting only two choices when other possibilities exist.",
+      "example": "\"Chef, either you find Tomato guilty of spilling the oil, or you're saying that spilling oil on the floor is acceptable.\""
+    },
+    {
+      "id": "hasty_generalization",
+      "name": "Hasty Generalization",
+      "definition": "Drawing a broad conclusion from too little evidence.",
+      "example": "\"One tomato rolled off the counter yesterday. That proves tomatoes can't control where they go, so this Tomato must have rolled into the cake.\""
+    },
+    {
+      "id": "straw_man",
+      "name": "Straw Man",
+      "definition": "Distorting someone's argument to make it easier to attack.",
+      "example": "Tomato: \"The peeler should be kept in a protective cover.\" Peeler: \"Tomato wants every gadget locked away forever so nobody can cook!\""
+    },
+    {
+      "id": "red_herring",
+      "name": "Red Herring",
+      "definition": "Introducing an irrelevant issue to distract from the original question.",
+      "example": "\"Tomato asks why there's frosting caught in my whisk wires. But Chef, shouldn't we be discussing how filthy the oven is?\""
+    },
+    {
+      "id": "whataboutism",
+      "name": "Whataboutism",
+      "definition": "Deflecting criticism by pointing to someone else's similar wrongdoing.",
+      "example": "\"Tomato accuses me of dripping grease onto the recipe. But he dripped juice onto the shopping list yesterday!\""
+    },
+    {
+      "id": "circular_reasoning",
+      "name": "Circular Reasoning",
+      "definition": "Using the conclusion itself as support for the conclusion.",
+      "example": "\"My account of the missing cheese is accurate because I'm a reliable grater. You can tell I'm reliable because my account is accurate.\""
+    },
+    {
+      "id": "appeal_to_ignorance",
+      "name": "Appeal to Ignorance",
+      "definition": "Claiming something is true because it has not been proven false, or vice versa.",
+      "example": "\"Tomato can't prove he never entered the pantry last night. Therefore, he entered it and stole the sugar.\""
+    },
+    {
+      "id": "false_cause",
+      "name": "False Cause",
+      "definition": "Assuming that because one event followed another, the first caused the second.",
+      "example": "\"The soup curdled immediately after Tomato rolled beside the stove. His arrival must have curdled it!\""
+    },
+    {
+      "id": "slippery_slope",
+      "name": "Slippery Slope",
+      "definition": "Claiming one step will lead to an extreme outcome without enough support.",
+      "example": "\"If you let Tomato keep that stolen basil leaf, next he'll take a whole bunch, then empty the pantry, and soon there won't be a single ingredient left!\""
+    },
+    {
+      "id": "false_analogy",
+      "name": "False Analogy",
+      "definition": "Treating two things as equivalent despite differences that matter.",
+      "example": "\"Chef, you throw away empty tomato cans. This Tomato has no filling inside him either, so you should throw him away too!\""
+    },
+    {
+      "id": "equivocation",
+      "name": "Equivocation",
+      "definition": "Switching between different meanings of the same word during an argument.",
+      "example": "\"Chef said we need a sharp witness. My blades are sharp, so my testimony must be the most intelligent.\""
+    },
+    {
+      "id": "loaded_question",
+      "name": "Loaded Question",
+      "definition": "Asking a question that assumes an unproven claim.",
+      "example": "\"Tomato, where did you hide the measuring spoon you stole?\" (It hasn't been established that Tomato stole it.)"
+    },
+    {
+      "id": "cherry_picking",
+      "name": "Cherry-Picking",
+      "definition": "Selecting evidence that supports a claim while ignoring relevant evidence against it.",
+      "example": "\"This camera image shows Tomato beside the broken plate!\" (The gadget skips the next frame, which shows its own cord pulling the plate off the counter.)"
+    },
+    {
+      "id": "moving_goalposts",
+      "name": "Moving the Goalposts",
+      "definition": "Changing the standard of proof after the original standard has been met.",
+      "example": "\"Show us a photo proving you were in the fruit bowl when the spill happened.\" Tomato provides one. \"A photo isn't enough. Now you need a video!\""
+    }
+  ]
+}
