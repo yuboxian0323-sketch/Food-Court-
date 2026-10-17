@@ -1,3 +1,4 @@
+from helpers import begin_answering, finish_result, ready_frame
 import copy
 import os
 import random
@@ -37,10 +38,10 @@ class GameplayRulesTests(unittest.TestCase):
             self.assertIn(session.question.fallacy,session.unlocked)
             if number in expected and number > 1:
                 self.assertTrue(session.new_fallacies)
-                session.ready()
+                begin_answering(session)
                 self.assertEqual(session.stage,'READING')
             session.acknowledge_unlock()
-            session.ready()
+            begin_answering(session)
             session.answer(session.question.fallacy)
             self.assertEqual(session.stage,'OBJECTION_ANIMATION')
             self.assertEqual(session.animation_remaining,s.OBJECTION_DURATION)
@@ -72,13 +73,13 @@ class GameplayRulesTests(unittest.TestCase):
     def test_wrong_timeout_tint_and_expression_bands(self):
         for i,outcome in enumerate(['incorrect','timeout','incorrect','timeout','incorrect']):
             session=self.session
-            session.ready()
+            begin_answering(session)
             if outcome=='timeout':
                 session.update(s.ANSWER_TIME)
             else:
                 session.answer(next(c for c in session.choices if c!=session.question.fallacy))
-            self.assertEqual(session.stage,'FEEDBACK')
-            self.assertEqual(session.animation_remaining,0)
+            self.assertEqual(session.stage,'MISTAKE_ANIMATION')
+            self.assertEqual(session.animation_remaining,session.banner_duration)
             self.assertEqual(session.hp,80-20*i)
             self.assertEqual(session.tint_alpha,80)
             self.assertEqual(session.gadget_expression,'smug')
@@ -89,6 +90,7 @@ class GameplayRulesTests(unittest.TestCase):
             self.assertEqual(session.tint_alpha,40)
             session.update(.25)
             self.assertEqual(session.tint_alpha,0)
+            finish_result(session)
             session.next_round()
         self.assertTrue(session.game_over)
         self.assertEqual(session.counts,dict(correct=0,incorrect=3,timeout=2))
@@ -104,7 +106,7 @@ class GameplayRulesTests(unittest.TestCase):
         session.next_round()
         self.assertEqual(len(session.unlocked),18)
         session.acknowledge_unlock()
-        session.ready()
+        begin_answering(session)
         session.answer(next(c for c in session.choices if c!=session.question.fallacy))
         session.restart()
         self.assertEqual((session.number,session.hp,session.score),(1,100,0))
@@ -172,7 +174,7 @@ class RenderingAndInputTests(unittest.TestCase):
 
     def test_click_after_movement_and_correct_animation_cannot_skip(self):
         game=self.game;session=game.session
-        game.frame([self.click(s.ACTION)],0)
+        ready_frame(game,self.click(s.ACTION))
         game.frame([],2)
         target=next(t for t in session.targets if t.fallacy_id==session.question.fallacy)
         pos=target.rect.center
@@ -187,6 +189,7 @@ class RenderingAndInputTests(unittest.TestCase):
         self.assertEqual(session.stage,'FEEDBACK')
         self.assertEqual(session.score,100)
         game.frame([self.click(s.ACTION)]*5,0)
+        game.frame([],s.BOARD_EXIT_DURATION)
         self.assertEqual(session.stage,'READING')
         self.assertEqual(session.number,2)
 
@@ -195,13 +198,15 @@ class RenderingAndInputTests(unittest.TestCase):
         positions=[t.x for t in session.targets]
         game.frame([],100)
         self.assertEqual(positions,[t.x for t in session.targets])
-        game.frame([self.click(s.ACTION)],0)
+        ready_frame(game,self.click(s.ACTION))
         game.frame([],10)
         self.assertEqual(session.tint_alpha,80)
         positions=[t.x for t in session.targets]
         game.frame([], .1)
         self.assertEqual(positions,[t.x for t in session.targets])
+        game.frame([],session.animation_remaining)
         game.frame([self.click(s.ACTION)],0)
+        game.frame([],s.BOARD_EXIT_DURATION)
         self.assertEqual(session.stage,'READING')
         self.assertEqual(session.tint_alpha,0)
 

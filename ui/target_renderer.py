@@ -21,9 +21,9 @@ class TargetRenderer:
     def sprite(self, name, width, height, size, feedback, hover):
         scale = self.raster_scale
         surface = pygame.Surface((width*scale,height*scale),pygame.SRCALPHA)
-        ink = '#23384d'
-        fill = '#bce3c6' if feedback=='correct' else '#f0b5ad' if feedback=='incorrect' else '#ffffff'
-        if hover:fill='#fff0c7'
+        ink = '#503522'
+        fill = '#bce3c6' if feedback=='correct' else '#f0b5ad' if feedback=='incorrect' else '#fff5dd'
+        if hover:fill='#ffe4ab'
         rect=surface.get_rect()
         pygame.draw.rect(surface,fill,rect,border_radius=8*scale)
         pygame.draw.rect(surface,ink,rect,scale,border_radius=8*scale)

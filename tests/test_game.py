@@ -1,3 +1,4 @@
+from helpers import begin_answering, finish_result, ready_frame
 import copy
 import json
 import os
@@ -23,7 +24,7 @@ class RulesTests(unittest.TestCase):
         self.session = Session(self.bank)
 
     def resolve(self, correct=True):
-        self.session.ready()
+        begin_answering(self.session)
         answer = self.session.question.fallacy
         if not correct:
             answer = next(c for c in self.session.choices if c != answer)
@@ -45,7 +46,7 @@ class RulesTests(unittest.TestCase):
         self.assertEqual(self.session.remaining, settings.ANSWER_TIME)
         self.assertFalse(self.session.answer(self.session.question.fallacy))
         for _ in range(5):
-            self.session.ready()
+            begin_answering(self.session)
             self.session.update(settings.ANSWER_TIME)
             self.session.update(50)
             self.assertEqual(self.session.stage, 'FEEDBACK')
@@ -115,7 +116,7 @@ class GameTests(unittest.TestCase):
     def test_boundary_input_and_queued_clicks(self):
         game = self.game
         session = game.session
-        game.frame([self.click(Court.action)], 0)
+        ready_frame(game,self.click(Court.action))
         session.remaining = .001
         index = session.choices.index(session.question.fallacy)
         game.frame([self.click(session.targets[index].rect)] * 8, .1)
@@ -123,16 +124,19 @@ class GameTests(unittest.TestCase):
         self.assertEqual(session.counts['timeout'], 0)
         game.frame([],settings.OBJECTION_DURATION)
         game.frame([self.click(Court.action)] * 8, 0)
+        game.frame([],settings.BOARD_EXIT_DURATION)
         self.assertEqual(session.number, 2)
         self.assertEqual(session.stage, 'READING')
 
     def test_full_session_results_restart_and_close(self):
         game = self.game
         for _ in range(5):
-            game.frame([self.click(Court.action)], 0)
+            ready_frame(game,self.click(Court.action))
             game.frame([], settings.ANSWER_TIME)
+            game.frame([],game.session.banner_duration)
             self.assertEqual(game.session.stage, 'FEEDBACK')
-            game.frame([self.click(Court.action)], 0)
+            game.frame([self.click(Court.action)],0)
+            game.frame([],settings.BOARD_EXIT_DURATION)
         self.assertIsInstance(game.scene, Results)
         game.frame([self.click(Results.again)] * 3, 0)
         self.assertIsInstance(game.scene, Court)

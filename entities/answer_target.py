@@ -191,8 +191,8 @@ def safe_velocities(targets, preferred, horizon):
             # Long labels most often pass above/below, rather than detouring
             # hundreds of pixels around each other's centers.
             axes=[]
-            if gx>=-1e-6:axes.append((max(0,gx)/(a.width+b.width),0,1 if dx>=0 else -1,max(0,gx)))
-            if gy>=-1e-6:axes.append((max(0,gy)/(a.height+b.height),1,1 if dy>=0 else -1,max(0,gy)))
+            if gx>=-2:axes.append((max(0,gx)/(a.width+b.width),0,1 if dx>=0 else -1,gx))
+            if gy>=-2:axes.append((max(0,gy)/(a.height+b.height),1,1 if dy>=0 else -1,gy))
             if not axes:
                 raise RuntimeError('Target rectangles lost their clearance before integration.')
             previous=a.avoidance_axes.get(b.fallacy_id)
@@ -212,7 +212,7 @@ def safe_velocities(targets, preferred, horizon):
                             safe_alternative.append(entry)
                     _,axis,sign,clearance=max(safe_alternative) if safe_alternative else old
             a.avoidance_axes[b.fallacy_id]=axis
-            constraints.append((i,j,axis,sign,clearance/horizon))
+            constraints.append((i,j,axis,sign,max(0,clearance)/horizon,clearance))
     # Zero velocity is always feasible for the current separated layout. Use
     # cyclic projections to share the needed adjustment between both labels.
     for _ in range(s.SEPARATION_SOLVER_ITERATIONS):
@@ -221,7 +221,7 @@ def safe_velocities(targets, preferred, horizon):
             velocities[i].x=max((left-t.position.x)/horizon,min((right-t.position.x)/horizon,velocities[i].x))
             velocities[i].y=max((top-t.position.y)/horizon,min((bottom-t.position.y)/horizon,velocities[i].y))
         changed=False
-        for i,j,axis,sign,allowed_closing in constraints:
+        for i,j,axis,sign,allowed_closing,clearance in constraints:
             closing=-sign*(velocities[i][axis]-velocities[j][axis])
             excess=closing-allowed_closing
             if excess>1e-9:
@@ -238,9 +238,9 @@ def safe_velocities(targets, preferred, horizon):
             v=velocities[i][axis]
             if v>0:factor=min(factor,max(0,(hi-t.position[axis])/(v*s.MOTION_STEP)))
             elif v<0:factor=min(factor,max(0,(t.position[axis]-lo)/(-v*s.MOTION_STEP)))
-    for i,j,axis,sign,allowed_closing in constraints:
+    for i,j,axis,sign,allowed_closing,clearance in constraints:
         closing=-sign*(velocities[i][axis]-velocities[j][axis])
-        allowed_step=(allowed_closing*horizon+1)/s.MOTION_STEP
+        allowed_step=max(0,clearance+2)/s.MOTION_STEP
         if closing>allowed_step and closing>0:factor=min(factor,allowed_step/closing)
     return [v*factor for v in velocities]
 

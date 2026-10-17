@@ -4,7 +4,7 @@ import settings as s
 
 class UI:
     def __init__(self):
-        self.fonts = {size: pygame.font.Font(None, size) for size in (20, 24, 26, 28, 32, 40, 48, 64)}
+        self.fonts = {size: pygame.font.Font(None, size) for size in (20, 24, 26, 28, 32, 40, 48, 64, 80, 96)}
 
     def text(self, screen, text, pos, size=28, color=s.TEXT):
         screen.blit(self.fonts[size].render(text, True, color), pos)

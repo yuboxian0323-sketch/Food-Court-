@@ -27,7 +27,9 @@ class SharedAnswerBoxTests(unittest.TestCase):
 
     def test_head_on_labels_curve_or_yield_without_touching_or_jumping(self):
         ts=make_targets(list(self.bank.fallacies)[:2],self.bank.fallacies,random.Random(9))
-        for t,pos,heading in zip(ts,[(300,470),(700,470)],[0,math.pi]):
+        bx,by,bw,bh=s.LABEL_REGION
+        positions=[(bx+12,by+bh/2),(bx+bw-ts[1].width-12,by+bh/2)]
+        for t,pos,heading in zip(ts,positions,[0,math.pi]):
             t.position.update(pos);t.previous_position.update(pos)
             t.heading=heading;t.speed=32;t.velocity.update(math.cos(heading)*32,math.sin(heading)*32)
             t.avoidance_axes.clear()
@@ -41,9 +43,12 @@ class SharedAnswerBoxTests(unittest.TestCase):
                 path.append(tuple(t.position))
         self.assertTrue(any(max(p[1] for p in path)-min(p[1] for p in path)>20 for path in paths))
 
-    def test_targets_can_cross_old_row_boundaries_in_both_directions(self):
+    def test_targets_cross_shared_board_midline_in_both_directions(self):
         ts=make_targets(list(self.bank.fallacies)[:2],self.bank.fallacies,random.Random(2))
-        for t,pos,heading in zip(ts,[(200,370),(800,560)],[math.pi/2,-math.pi/2]):
+        bx,by,bw,bh=s.LABEL_REGION
+        midline=by+(bh-ts[0].height)/2
+        positions=[(bx+12,midline-45),(bx+bw-ts[1].width-12,midline+45)]
+        for t,pos,heading in zip(ts,positions,[math.pi/2,-math.pi/2]):
             t.position.update(pos);t.previous_position.update(pos)
             t.heading=heading;t.speed=32;t.velocity.update(0,32 if heading>0 else -32)
             t.steering=t.steering_target=0;t.avoidance_axes.clear()
@@ -52,6 +57,6 @@ class SharedAnswerBoxTests(unittest.TestCase):
             for _ in range(600):
                 update_targets(ts,1/60)
                 for t,path in zip(ts,paths):path.append(tuple(t.position))
-        self.assertGreater(max(p[1] for p in paths[0]),540)
-        self.assertLess(min(p[1] for p in paths[1]),440)
+        self.assertGreater(max(p[1] for p in paths[0]),midline+10)
+        self.assertLess(min(p[1] for p in paths[1]),midline-10)
         self.assertTrue(all(t.bounds_corrections==0 for t in ts))

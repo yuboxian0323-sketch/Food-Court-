@@ -47,6 +47,7 @@ class Session:
         self.stage = 'READING'
         self.remaining = s.ANSWER_TIME
         self.animation_remaining = self.tint_remaining = 0.0
+        self.transition_remaining = 0.0
         self.result = self.selected = None
         self.resolved = False
         self.tomato_expression = self.expression_for_hp()
@@ -61,7 +62,8 @@ class Session:
 
     def ready(self):
         if self.stage == 'READING' and not self.new_fallacies:
-            self.stage = 'ANSWERING'
+            self.stage = 'BOARD_ENTER'
+            self.transition_remaining = s.BOARD_ENTER_DURATION
             self.gadget_expression, self.chef_expression = 'waiting', 'listening'
 
     def answer(self, choice):
@@ -85,7 +87,8 @@ class Session:
         else:
             self.hp = max(0, min(s.START_HP, self.hp - s.DAMAGE))
             self.tint_remaining = s.MISTAKE_TINT_DURATION
-            self.stage = 'FEEDBACK'
+            self.stage = 'MISTAKE_ANIMATION'
+            self.animation_remaining = self.banner_duration
             self.gadget_expression, self.chef_expression = 'smug', 'stern'
         self.tomato_expression = self.expression_for_hp()
         for target in self.targets:
@@ -93,17 +96,51 @@ class Session:
                                'incorrect' if target.fallacy_id == selected else '')
         return True
 
+    @property
+    def banner_duration(self):
+        return s.BANNER_IN_DURATION+s.BANNER_HOLD_DURATION+s.BANNER_OUT_DURATION
+
+    @property
+    def banner_elapsed(self):
+        return self.banner_duration-self.animation_remaining
+
+    @property
+    def board_progress(self):
+        if self.stage=='READING':return 0.0
+        if self.stage=='BOARD_ENTER':return 1-self.transition_remaining/s.BOARD_ENTER_DURATION
+        if self.stage=='BOARD_EXIT':return self.transition_remaining/s.BOARD_EXIT_DURATION
+        return 1.0
+
+    def continue_round(self):
+        if self.stage=='FEEDBACK':
+            self.stage='BOARD_EXIT'
+            self.transition_remaining=s.BOARD_EXIT_DURATION
+
     def update(self, dt):
-        dt = max(0, dt)
-        if self.stage == 'ANSWERING':
-            active_dt = min(dt, self.remaining)
-            update_targets(self.targets, active_dt)
-            self.remaining = max(0.0, self.remaining - dt)
-            if self.remaining == 0:
+        dt=max(0,dt)
+        if self.stage=='BOARD_ENTER':
+            self.transition_remaining=max(0,self.transition_remaining-dt)
+            if self.transition_remaining<=1e-8:
+                self.stage='ANSWERING'
+                self.transition_remaining=0
+                self.remaining=s.ANSWER_TIME
+        elif self.stage=='ANSWERING':
+            active_dt=min(dt,self.remaining)
+            update_targets(self.targets,active_dt)
+            self.remaining=max(0,self.remaining-dt)
+            if self.remaining<=1e-8:
+                self.remaining=0
                 self.resolve_round('timeout')
-        elif self.stage == 'OBJECTION_ANIMATION':
-            self.animation_remaining = max(0, self.animation_remaining - dt)
-            if self.animation_remaining == 0:
-                self.stage = 'FEEDBACK'
-        elif self.stage == 'FEEDBACK':
-            self.tint_remaining = max(0, self.tint_remaining - dt)
+        elif self.stage in ('OBJECTION_ANIMATION','MISTAKE_ANIMATION'):
+            self.animation_remaining=max(0,self.animation_remaining-dt)
+            self.tint_remaining=max(0,self.tint_remaining-dt)
+            if self.animation_remaining<=1e-8:
+                self.animation_remaining=0
+                self.stage='FEEDBACK'
+        elif self.stage=='FEEDBACK':
+            self.tint_remaining=max(0,self.tint_remaining-dt)
+        elif self.stage=='BOARD_EXIT':
+            self.transition_remaining=max(0,self.transition_remaining-dt)
+            if self.transition_remaining<=1e-8:
+                if self.game_over:self.stage='GAME_OVER'
+                else:self.next_round()

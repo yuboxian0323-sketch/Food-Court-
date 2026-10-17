@@ -1,3 +1,4 @@
+from helpers import begin_answering, finish_result, ready_frame
 import os
 import random
 import unittest
@@ -61,7 +62,7 @@ class SubpixelRenderingTests(unittest.TestCase):
         session.number=29
         session.next_round()
         session.acknowledge_unlock()
-        session.ready()
+        begin_answering(session)
         target=session.targets[0]
         holds=0
         previous=target.draw_position

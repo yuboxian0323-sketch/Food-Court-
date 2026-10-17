@@ -15,15 +15,7 @@ ACCENT = '#f1c578'
 GREEN = '#91ddb1'
 RED = '#f69a91'
 
-# Gameplay layout from Section 5.4 (x, y, width, height).
-HUD = (0, 0, 1280, 60)
-CHARACTER_AREA = (140, 70, 1000, 150)
-TOMATO_ANCHOR = (350, 220)
-CHEF_ANCHOR = (930, 220)
-GADGET_ANCHOR = (640, 215)
-DIALOGUE = (140, 230, 1000, 100)
-LABEL_REGION = (140, 340, 1000, 300)
-ACTION = (540, 650, 200, 56)
+# Answer label dimensions and motion. Courtroom placement is configured below.
 LABEL_WIDTH = 260
 DENSE_LABEL_WIDTH = 260
 TARGET_SPEED = (28.0, 36.0)
@@ -78,3 +70,32 @@ SEPARATION_SOLVER_ITERATIONS = 48
 SEPARATION_FACE_HYSTERESIS = 24.0
 
 ESCAPE_DELAY = 0.25
+
+# Courtroom composition and foreground occlusion, in the 1280x720 scene.
+COURTROOM_ASSET = ROOT / 'assets/images.jpeg'
+KNIFE_ASSET = ROOT / 'assets/Knife_SpriteSheet.png'
+BOARD_ASSET = ROOT / 'assets/plank-chopping-board-cartoon-illustration-vector.jpg'
+KNIFE_ANCHOR = (240, 618)
+KNIFE_WIDTH = 380
+TOMATO_ANCHOR = (1050, 620)
+TOMATO_WIDTH = 220
+CHEF_ANCHOR = (640, 498)
+CHEF_PORTRAIT_SIZE = (190, 220)
+CENTRAL_BENCH_FOREGROUND = (330, 424, 620, 162)
+FRONT_DESK_FOREGROUND = (0, 608, 1280, 112)
+HUD = (28, 16, 1224, 46)
+DIALOGUE = (100, 80, 1080, 120)
+BOARD_RECT = (280, 100, 720, 600)
+# Safe wood only: below the rotated handle and inset from curved outer edges.
+LABEL_REGION = (326, 258, 628, 390)
+ACTION = (540, 654, 200, 48)
+BOARD_ENTER_DURATION = 0.35
+BOARD_EXIT_DURATION = 0.25
+BOARD_SLIDE_DISTANCE = 580
+BANNER_IN_DURATION = 0.20
+BANNER_HOLD_DURATION = 0.65
+BANNER_OUT_DURATION = 0.25
+BANNER_HEIGHT = 132
+BANNER_CENTER_Y = 360
+WRONG_BANNER_TEXT = 'INCORRECT!'
+TIMEOUT_BANNER_TEXT = "TIME'S UP!"

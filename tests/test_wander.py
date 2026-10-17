@@ -1,3 +1,4 @@
+from helpers import begin_answering, finish_result, ready_frame
 import copy
 import math
 import os
@@ -74,7 +75,7 @@ class WanderTests(unittest.TestCase):
     def test_hover_does_not_change_simulation_and_click_uses_drawn_rect(self):
         game=Game()
         try:
-            game.session.ready()
+            begin_answering(game.session)
             targets=game.session.targets
             for _ in range(90):update_targets(targets,1/60)
             original=copy.deepcopy(targets)

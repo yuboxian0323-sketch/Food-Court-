@@ -6,6 +6,7 @@ from scenes.base import Scene
 from systems.question_bank import QuestionBank, ContentError
 from systems.session import Session
 from systems.tomato import Tomato
+from systems.scene_assets import SceneAssets
 from ui.widgets import UI
 
 
@@ -28,6 +29,7 @@ class Game:
         pygame.display.set_caption('Food Court')
         self.ui = UI()
         self.tomato = Tomato()
+        self.scene_assets = SceneAssets()
         self.running = True
         try:
             self.bank = QuestionBank(s.ROOT / 'data')
