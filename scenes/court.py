@@ -1,13 +1,3 @@
-"""Courtroom presentation: source artwork, board transitions, and result ribbons.
-
-Operation:
-    Compose the existing scene and route stage-appropriate controls.
-Input:
-    Application/session state, source-art caches, scene coordinates, and elapsed
-    seconds.
-Output:
-    Court frames and guarded input transitions; banner geometry/timing remain shared.
-"""
 import pygame
 import settings as s
 from scenes.base import Scene

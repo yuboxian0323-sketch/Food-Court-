@@ -1,12 +1,3 @@
-"""Configure gameplay, scene-pixel layout, and second-based animation timing.
-
-Operation:
-    Declare the existing shared rules, paths, units, and layout constants.
-Input:
-    This file location for ROOT and fixed gameplay/visual tuning values.
-Output:
-    Module constants; Session publishes the validated DIFFICULTY_SCHEDULE at startup.
-"""
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -87,12 +78,16 @@ SEPARATION_FACE_HYSTERESIS = 24.0
 
 ESCAPE_DELAY = 0.25
 
-# Operation: Courtroom composition and foreground occlusion, in the 1280x720 scene.
-# Input: Scene-pixel asset paths, midbottom anchors, and layer rectangles.
-# Output: Shared layout used by the courtroom compositor.
+#Asset file locations
 COURTROOM_ASSET = ROOT / 'assets/Background.png'
 KNIFE_ASSET = ROOT / 'assets/Knife_SpriteSheet.png'
 BOARD_ASSET = ROOT / 'assets/plank-chopping-board-cartoon-illustration-vector.jpg'
+CHEF_ASSET = ROOT / 'assets/Chef_SpriteSheet.png'
+TOMATO_ASSET = ROOT / 'assets/Tomato_SpriteSheet.png'
+TABLE_ASSET = ROOT / "assets/tables.png"
+
+
+#Positioning of assets
 KNIFE_ANCHOR = (240, 518)
 KNIFE_WIDTH = 380
 TOMATO_ANCHOR = (1050, 520)

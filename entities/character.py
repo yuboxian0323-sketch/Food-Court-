@@ -1,114 +1,60 @@
-"""Small drawn stand-ins for missing Chef and gadget art, with clear reactions.
 
-Operation:
-    Paint legacy Chef/gadget portraits from Pygame drawing primitives.
-Input:
-    Destination surfaces, scene-pixel anchors, and expression names.
-Output:
-    Drawn fallback artwork; no asset loads or gameplay updates.
-"""
 import pygame
 
-INK = '#263b4d'
 
+class SpriteStrip:
+    def __init__(self, path, frame_count=5, painted_width=5586):
+        self.frames = []
 
-def eyes(screen, center, expression):
-    """Draw the fallback facial reaction around a scene-pixel center.
+        try:
+            sheet = pygame.image.load(str(path)).convert_alpha()
 
-    Operation:
-        Select fallback facial geometry for the expression.
-    Input:
-        screen: destination; center: scene pixels; expression: reaction name.
-    Output:
-        Draws eyes/mouth on screen; returns None.
-    """
-    x, y = center
-    for offset in (-15, 15):
-        pygame.draw.circle(screen, INK, (x+offset, y), 4)
-    if expression in ('shocked', 'surprised'):
-        pygame.draw.ellipse(screen, INK, (x-7, y+13, 14, 19), 3)
-    elif expression == 'stern':
-        pygame.draw.line(screen, INK, (x-15, y+20), (x+15, y+20), 3)
-        pygame.draw.line(screen, INK, (x-23, y-11), (x-8, y-6), 3)
-        pygame.draw.line(screen, INK, (x+8, y-6), (x+23, y-11), 3)
-    elif expression == 'smug':
-        pygame.draw.line(screen, INK, (x-22,y-2), (x-9,y-2), 3)
-        pygame.draw.line(screen, INK, (x+7,y-12), (x+24,y-16), 3)
-        pygame.draw.arc(screen, INK, (x-10,y+5,30,20), 3.3, 6, 3)
-    elif expression == 'talking':
-        pygame.draw.ellipse(screen, INK, (x-10, y+13, 20, 12), 2)
-    else:
-        pygame.draw.arc(screen, INK, (x-15, y+5, 30, 20), 3.2, 6.1, 3)
+            for index in range(frame_count):
+                left = round(index * painted_width / frame_count)
+                right = round((index + 1) * painted_width / frame_count)
 
+                cell = sheet.subsurface(
+                    (left, 0, right - left, sheet.get_height())
+                ).copy()
 
-def _draw_chef(screen, anchor, expression):
-    """Paint the full-size fallback Chef above a midbottom anchor.
+                bounds = cell.get_bounding_rect()
+                if bounds.width == 0 or bounds.height == 0:
+                    raise ValueError(f"Sprite frame {index} is empty")
 
-    Operation:
-        Paint the full-size fallback portrait above its baseline.
-    Input:
-        screen, midbottom anchor in pixels, and expression.
-    Output:
-        Draws Chef geometry; returns None.
-    """
-    x, floor = anchor
-    pygame.draw.rect(screen, '#edf0ed', (x-65, floor-100, 130, 85), border_radius=24)
-    pygame.draw.rect(screen, INK, (x-65, floor-100, 130, 85), 2, border_radius=24)
-    pygame.draw.ellipse(screen, '#efcba8', (x-49, floor-185, 98, 102))
-    for dx, dy in ((-34, -209), (0, -225), (34, -209)):
-        pygame.draw.circle(screen, '#ffffff', (x+dx, floor+dy+40), 30)
-    pygame.draw.rect(screen, '#ffffff', (x-56, floor-185, 112, 30))
-    pygame.draw.line(screen, INK, (x-56, floor-155), (x+56, floor-155), 2)
-    eyes(screen, (x, floor-133), expression)
-    pygame.draw.rect(screen, '#a37852', (x-100, floor-20, 200, 20), border_radius=3)
+                self.frames.append(cell.subsurface(bounds).copy())
 
+        except (pygame.error, OSError, ValueError) as error:
+            raise RuntimeError(
+                f"Failed to load or process sprite sheet '{path}': {error}"
+            ) from error
 
-def _draw_gadget(screen, anchor, expression):
-    """Paint the legacy fallback gadget above a midbottom anchor.
+        # Align frames to a shared canvas so characters don't jump
+        # as their expressions change.
+        width = max(frame.get_width() for frame in self.frames)
+        height = max(frame.get_height() for frame in self.frames)
 
-    Operation:
-        Paint the full-size legacy gadget portrait above its baseline.
-    Input:
-        screen, midbottom anchor in pixels, and expression.
-    Output:
-        Draws gadget geometry; returns None.
-    """
-    x, floor = anchor
-    pygame.draw.rect(screen, '#91a6b6', (x-11, floor-64, 22, 64), border_radius=8)
-    for width in (100, 70, 40):
-        pygame.draw.ellipse(screen, '#59778c', (x-width//2, floor-190, width, 140), 3)
-    pygame.draw.ellipse(screen, '#d8e4e9', (x-43, floor-147, 86, 74))
-    eyes(screen, (x, floor-127), expression)
-    pygame.draw.rect(screen, '#a37852', (x-75, floor-10, 150, 10), border_radius=3)
+        aligned_frames = []
+        for frame in self.frames:
+            aligned = pygame.Surface((width, height), pygame.SRCALPHA)
+            aligned.blit(
+                frame,
+                ((width - frame.get_width()) // 2, height - frame.get_height())
+            )
+            aligned_frames.append(aligned)
 
+        self.frames = aligned_frames
 
-def draw_chef(screen, anchor, expression):
-    """Draw the legacy half-size Chef portrait at a midbottom anchor.
+    def draw(self, screen, index, position=(0, 0), scale=1.0):
+        """Draw a selected frame at a top-left position."""
+        frame = self.frames[index]
 
-    Operation:
-        Scale a legacy Chef canvas to half size and align its baseline.
-    Input:
-        screen, midbottom scene-pixel anchor, and expression.
-    Output:
-        Blits a 110×120 portrait; returns None.
-    """
-    portrait=pygame.Surface((220,240),pygame.SRCALPHA)
-    _draw_chef(portrait,(110,240),expression)
-    portrait=pygame.transform.smoothscale(portrait,(110,120))
-    screen.blit(portrait,(anchor[0]-55,anchor[1]-120))
+        if scale != 1.0:
+            frame = pygame.transform.smoothscale(
+                frame,
+                (
+                    round(frame.get_width() * scale),
+                    round(frame.get_height() * scale)
+                )
+            )
 
-
-def draw_gadget(screen, anchor, expression):
-    """Draw the legacy half-size gadget portrait at a midbottom anchor.
-
-    Operation:
-        Scale a legacy gadget canvas to half size and align its baseline.
-    Input:
-        screen, midbottom scene-pixel anchor, and expression.
-    Output:
-        Blits a 90×110 portrait; returns None.
-    """
-    portrait=pygame.Surface((180,220),pygame.SRCALPHA)
-    _draw_gadget(portrait,(90,220),expression)
-    portrait=pygame.transform.smoothscale(portrait,(90,110))
-    screen.blit(portrait,(anchor[0]-45,anchor[1]-110))
+        screen.blit(frame, position)

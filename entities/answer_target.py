@@ -1,14 +1,3 @@
-"""Continuous two-dimensional wander, integrated in bounded fixed steps.
-
-Operation:
-    Plan smooth steering and integrate shared moving answer labels.
-Input:
-    Seeded target state, elapsed seconds, label rectangles, and board bounds in scene
-    pixels.
-Output:
-    Mutable simulation state and fractional hit/display positions; no source data or
-    file writes.
-"""
 import math
 import random
 from dataclasses import dataclass, field
@@ -19,15 +8,6 @@ import settings as s
 
 @dataclass
 class AnswerTarget:
-    """Track one upright label in shared board coordinates.
-
-    Operation:
-        Retain independent steering history and a shared board boundary.
-    Input:
-        Fallacy identity, label dimensions, seeded RNG, and scene-pixel motion state.
-    Output:
-        Mutable target state; positions use pixels and velocities use pixels/second.
-    """
 
     fallacy_id: str
     name: str

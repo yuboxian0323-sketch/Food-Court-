@@ -1,43 +1,17 @@
-"""Validate editable content and draw questions without replacement.
-
-Operation:
-    Validate editable content and draw from seeded eligible-question bags.
-Input:
-    Content directory, optional RNG, current unlocks, and answer ID.
-Output:
-    Validated records and question/choice draws; RNG/bag history advance without editing
-    source JSON.
-"""
 import json
 import random
 from dataclasses import dataclass
 
-
+#Report content problems
 class ContentError(ValueError):
-    """Report invalid editable content with a user-readable diagnostic.
 
-    Operation:
-        Represent editable-content load or validation failures.
-    Input:
-        A diagnostic message describing the file/record failure.
-    Output:
-        ValueError-compatible exception propagated to the application error scene.
-    """
 
     pass
 
-
-@dataclass(frozen=True)
+#Sotres a question
+@dataclass(frozen=True) #Once question created, fields cant be reassigned
 class Question:
-    """Store one validated question as an immutable content record.
-
-    Operation:
-        Retain a validated immutable question record.
-    Input:
-        id, fallacy, argument, explanation strings.
-    Output:
-        Frozen dataclass fields; no random or file side effects.
-    """
+    
 
     id: str
     fallacy: str
@@ -46,16 +20,6 @@ class Question:
 
 
 def read_json(path, key):
-    """Return a required nonempty list from a UTF-8 JSON object.
-
-    Operation:
-        Parse UTF-8 JSON and require the requested nonempty list.
-    Input:
-        path and key: required object-list name.
-    Output:
-        Returns list entries; raises ContentError for reading, parsing, or structure
-        failures.
-    """
     try:
         value = json.loads(path.read_text(encoding='utf-8'))
     except (OSError, ValueError) as error:
@@ -66,27 +30,10 @@ def read_json(path, key):
 
 
 class QuestionBank:
-    """Validate content and own the seeded eligible-question shuffle bag.
-
-    Operation:
-        Validate the content bank and maintain its seeded eligible-question bag.
-    Input:
-        data directory and optional random.Random instance.
-    Output:
-        Owns validated records, RNG, and mutable bag/history.
-    """
+    
 
     def __init__(self, data_dir, rng=None):
-        """Validate data_dir records and retain the supplied random generator.
-
-        Operation:
-            Validate fallacies, question fields, optional choices, and topic coverage.
-        Input:
-            data_dir and rng; editable fallacies/questions JSON.
-        Output:
-            Sets validated content and resets bag history; raises ContentError for
-            invalid records.
-        """
+        
         self.rng = rng or random.Random()
         self.fallacies = {}
         for row in read_json(data_dir / 'fallacies.json', 'fallacies'):
@@ -133,32 +80,15 @@ class QuestionBank:
         self.questions = tuple(questions)
         self.reset()
 
+    #Reset question selection history
     def reset(self):
-        """Clear bag history without reseeding the generator or changing content.
-
-        Operation:
-            Discard bag, last-question, and eligibility history without reseeding.
-        Input:
-            The current bank instance.
-        Output:
-            Clears _bag/_last/_eligible; content and RNG state are retained; returns
-            None.
-        """
         self._bag = []
         self._last = None
         self._eligible = None
 
+    #Select question without replacement
     def draw(self, unlocked=None):
-        """Draw an eligible question without replacement until its bag is exhausted.
-
-        Operation:
-            Rebuild eligible bags as needed, shuffle, and prevent boundary repeats.
-        Input:
-            Optional unlocked IDs, RNG, eligible bag, and last question ID.
-        Output:
-            Returns one Question and advances bag/RNG/history; raises ContentError if no
-            eligible question exists.
-        """
+       
         eligible = frozenset(unlocked if unlocked is not None else self.fallacies)
         # Operation: A changed unlock pool invalidates the bag without losing the
         #     last-question guard.
@@ -182,6 +112,7 @@ class QuestionBank:
         self._last = question.id
         return question
 
+    #Generate answer options
     def choices(self, answer, unlocked):
         # Operation: Legacy stored choices are validated, but progression determines
         #     what can be offered. A stored distractor must never expose a locked topic.

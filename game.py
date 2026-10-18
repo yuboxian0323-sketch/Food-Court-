@@ -1,12 +1,3 @@
-"""Own the desktop window, scene dispatch, and asynchronous frame pacing.
-
-Operation:
-    Initialize resources and dispatch the asynchronous desktop scene loop.
-Input:
-    Configured assets/content, Pygame events, and monotonic elapsed seconds.
-Output:
-    Window/rendering and session state; content failures become an error scene.
-"""
 import asyncio
 import time
 import pygame
@@ -14,44 +5,16 @@ import settings as s
 from scenes.base import Scene
 from systems.question_bank import QuestionBank, ContentError
 from systems.session import Session
-from systems.tomato import Tomato
+from entities.tomato import Tomato
 from systems.scene_assets import SceneAssets
 from ui.widgets import UI
 
 
 class ErrorScene(Scene):
-    """Display content validation failures instead of entering the court.
-
-    Operation:
-        Retain a readable content-validation diagnostic for rendering.
-    Input:
-        Application reference and validation message.
-    Output:
-        Provides the error scene drawing hook.
-    """
-
     def __init__(self, game, message):
-        """Store the application and the content diagnostic to display.
-
-        Operation:
-            Bind the diagnostic to the application UI.
-        Input:
-            game and message from failed content validation.
-        Output:
-            Stores game/message; returns None.
-        """
         self.game, self.message = game, message
 
     def draw(self, screen):
-        """Draw the content error and restart instructions on the supplied surface.
-
-        Operation:
-            Draw the validation diagnostic and restart guidance.
-        Input:
-            screen and stored message; application font cache.
-        Output:
-            Renders an error screen; returns None.
-        """
         screen.fill(s.BG)
         self.game.ui.text(screen, 'Content needs a quick fix', (60, 70), 48, s.ACCENT)
         self.game.ui.paragraph(screen, self.message, (60, 160, 1150, 350), 28)
@@ -59,37 +22,19 @@ class ErrorScene(Scene):
 
 
 class Game:
-    """Own session data, artwork, current scene, and the application lifetime.
-
-    Operation:
-        Coordinate the session, display, scene dispatch, and application lifetime.
-    Input:
-        Pygame events, elapsed seconds, configured content and asset paths.
-    Output:
-        Owns the active game window and mutable session/scene state.
-    """
 
     def __init__(self):
-        """Initialize display-dependent artwork before constructing the session.
-
-        Operation:
-            Initialize display-dependent assets before validating the playable session.
-        Input:
-            Settings paths, source artwork, and JSON content; existing asset loaders.
-        Output:
-            Creates window/UI/session/court. ContentError creates ErrorScene; unrelated
-            startup errors propagate.
-        """
         pygame.display.init()
         pygame.font.init()
-        self.screen = pygame.display.set_mode((s.WIDTH, s.HEIGHT))
+
+        # Set up the display and game state
+        self.screen = pygame.display.set_mode((s.WIDTH, s.HEIGHT)) #Window size
         pygame.display.set_caption('Food Court')
-        self.tomato = Tomato()
-        self.scene_assets = SceneAssets()
         self.running = True
         self.ui = UI()
 
         try:
+            self.scene_assets = SceneAssets()
             self.bank = QuestionBank(s.ROOT / 'data')
             self.session = Session(self.bank)
             from scenes.court import Court
@@ -98,16 +43,6 @@ class Game:
             self.scene = ErrorScene(self, str(error))
 
     def restart(self):
-        """Reset the session and replace the court, suppressing carried-over clicks.
-
-        Operation:
-            Reset session state and replace the court while suppressing carried-over
-            clicks.
-        Input:
-            Current session, content bank, and application.
-        Output:
-            Creates a fresh Court with its transition guard set; returns None.
-        """
         self.session.restart()
         from scenes.court import Court
         self.scene = Court(self)
@@ -173,3 +108,38 @@ class Game:
                     deadline=time.perf_counter()
         finally:
             pygame.quit()
+
+
+class Game():
+    def __init__(self):
+        pygame.init()
+        self.screen = pygame.display.set_mode((s.WIDTH, s.HEIGHT))
+        pygame.display.set_caption(s.TITLE)
+        self.clock = pygame.time.Clock()
+        self.running = True
+
+    async def run(self):
+        while self.running:
+            self.handle_events()
+            self.update()
+            self.draw()
+            await asyncio.sleep(0)  # Yield control to the event loop
+            self.clock.tick(s.FPS)
+
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+
+    def update(self):
+        # Update game state here
+        pass
+
+    def draw(self):
+        self.screen.fill(s.BACKGROUND_COLOR)
+        # Draw game elements here
+        pygame.display.flip()
+
+
+if __name__ == '__main__':
+    asyncio.run(Game().run())
