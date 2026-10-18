@@ -13,7 +13,7 @@ from functools import lru_cache
 import math
 import pygame
 import settings as s
-from entities.character import _draw_chef
+from entities.chef import Chef
 from systems.expressions import TOMATO_FRAMES
 
 
@@ -129,7 +129,8 @@ class SceneAssets:
         self.tomato=SpriteStrip(s.ROOT/'assets/Tomato_SpriteSheet.png')
         self.background=self.load_background()
         self.board=self.load_board()
-        self.chef_frames={state:self.make_chef(state) for state in ('listening','surprised','stern')}
+        self.chef=Chef(s.ROOT/'assets/Chef_SpriteSheet.png')
+        self.chef_expression='listening'
         self.board_shadow=self.make_shadow((s.BOARD_RECT[2],s.BOARD_RECT[3]))
 
     def load_background(self):
@@ -148,7 +149,7 @@ class SceneAssets:
             scale=max(s.WIDTH/source.get_width(),s.HEIGHT/source.get_height())
             image=pygame.transform.smoothscale(source,(round(source.get_width()*scale),round(source.get_height()*scale)))
             result=pygame.Surface((s.WIDTH,s.HEIGHT))
-            result.blit(image,image.get_rect(center=(s.WIDTH//2,s.HEIGHT//2)))
+            result.blit(image,image.get_rect(center=(s.WIDTH//2,s.HEIGHT//2 + 150)))
             return result
         except (pygame.error,OSError):
             result=pygame.Surface((s.WIDTH,s.HEIGHT));result.fill('#a87c50')
@@ -208,20 +209,14 @@ class SceneAssets:
             pygame.draw.rect(shadow,(25,13,5,3+(16-inset)),(16-inset,16-inset,size[0]+inset*2,size[1]+inset*2),border_radius=50)
         return shadow
 
-    @staticmethod
-    def make_chef(expression):
-        """Return a cached-size drawn Chef portrait for the requested expression.
-
-        Operation:
-            Paint and scale the existing fallback Chef reaction.
-        Input:
-            expression and configured portrait dimensions.
-        Output:
-            Returns a portrait Surface without changing anchors or source art.
-        """
-        portrait=pygame.Surface((220,240),pygame.SRCALPHA)
-        _draw_chef(portrait,(110,240),expression)
-        return pygame.transform.smoothscale(portrait,s.CHEF_PORTRAIT_SIZE)
+    def update_chef(self, dt, expression):
+        if expression != self.chef_expression:
+            self.chef_expression=expression
+            if expression=='listening':
+                self.chef.reset()
+            else:
+                self.chef.play()
+        self.chef.update(dt)
 
     def draw_courtroom(self, screen, session):
         """Draw background, Chef, bench occlusion, actors, then foreground desks.
@@ -235,15 +230,13 @@ class SceneAssets:
             returns None.
         """
         screen.blit(self.background,(0,0))
-        chef=self.chef_frames[session.chef_expression]
-        screen.blit(chef,chef.get_rect(midbottom=s.CHEF_ANCHOR))
-        # Operation: Reuse precisely the same transformed background pixels. The Chef is
-        #     drawn first, then the physical bench front occludes their lower body.
-        # Input: Chef portrait, transformed background, and bench rectangle.
-        # Output: Bench pixels occlude Chef using exactly the background transform,
-        #     avoiding seams.
+        # Operation: Reuse precisely the same transformed background pixels for the
+        #     bench before drawing the full Chef sprite over it.
+        # Input: Transformed background and bench rectangle.
+        # Output: Bench area is restored without covering the Chef sprite's own counter.
         bench=pygame.Rect(s.CENTRAL_BENCH_FOREGROUND)
         screen.blit(self.background,bench,bench)
+        self.chef.draw(screen,s.CHEF_ANCHOR,s.CHEF_PORTRAIT_SIZE)
         for anchor,width in ((s.KNIFE_ANCHOR,350),(s.TOMATO_ANCHOR,180)):
             shadow=pygame.Surface((width,20),pygame.SRCALPHA)
             pygame.draw.ellipse(shadow,(32,15,6,55),(0,0,width,20))

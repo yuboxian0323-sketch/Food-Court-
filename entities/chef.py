@@ -1,87 +1,55 @@
-"""Retain the legacy three-frame Chef player loaded during game startup.
-
-Operation:
-    Retain the separately loaded legacy three-frame Chef interface.
-Input:
-    Chef sheet path and optional play/update/draw calls.
-Output:
-    Extracted source frames and legacy animation state; the court uses its existing
-    drawn portrait.
-"""
+"""Load and animate the three Chef poses from the supplied sprite sheet."""
 import pygame
 
 
 class Chef:
-    """Keep the legacy equal-width three-frame sprite animation interface.
+    def __init__(self, sprite_sheet_path, frame_duration=0.15):
+        sheet = pygame.image.load(str(sprite_sheet_path)).convert_alpha()
 
-    Operation:
-        Retain the legacy three-frame animation interface loaded at startup.
-    Input:
-        Sprite-sheet path and later play/update/draw calls.
-    Output:
-        Owns source-sized frames; visible court portraits still come from SceneAssets.
-    """
+        # The three painted poses occupy the leftmost 3187 pixels; the rest
+        # of this sheet is transparent.
+        painted_width = 3187
+        frames = []
+        for index in range(3):
+            left = round(index * painted_width / 3)
+            right = round((index + 1) * painted_width / 3)
+            cell = sheet.subsurface(
+                (left, 0, right - left, sheet.get_height())
+            )
+            frames.append(cell.subsurface(cell.get_bounding_rect()).copy())
 
-    def __init__(self, sprite_sheet_path):
-        """Load three horizontal cells from sprite_sheet_path using source alpha.
-
-        Operation:
-            Load alpha artwork and divide it into three equal horizontal cells.
-        Input:
-            sprite_sheet_path and an initialized Pygame display.
-        Output:
-            Sets frames, current_frame, timer, and animating. Load/format errors
-            propagate.
-        """
-        sheet = pygame.image.load(sprite_sheet_path).convert_alpha()
-
-        frame_width = sheet.get_width() // 3
-        frame_height = sheet.get_height()
-
-        self.frames = [
-            sheet.subsurface(
-                (i * frame_width, 0, frame_width, frame_height)
-            ).copy()
-            for i in range(3)
-        ]
+        width = max(frame.get_width() for frame in frames)
+        height = max(frame.get_height() for frame in frames)
+        self.frames = []
+        for frame in frames:
+            aligned = pygame.Surface((width, height), pygame.SRCALPHA)
+            aligned.blit(
+                frame,
+                ((width - frame.get_width()) // 2, height - frame.get_height()),
+            )
+            self.frames.append(aligned)
 
         self.current_frame = 0
-        self.timer = 0
+        self.elapsed = 0.0
+        self.frame_duration = frame_duration
         self.animating = False
-        
 
     def play(self):
-        """Start the animation from the first frame.
-
-        Operation:
-            Reset the legacy animation to its first frame.
-        Input:
-            Current Chef instance.
-        Output:
-            Sets current_frame/elapsed to zero and animating to True; returns None.
-        """
         self.current_frame = 0
         self.elapsed = 0
         self.animating = True
 
-    def update(self, dt):
-        """Advance the animation based on elapsed time.
+    def reset(self):
+        self.current_frame = 0
+        self.elapsed = 0
+        self.animating = False
 
-        Operation:
-            Advance one legacy frame when its externally supplied duration elapses.
-        Input:
-            dt: seconds; animating/elapsed; frame_duration supplied by a caller.
-        Output:
-            Updates frame index/elapsed and stops at the last frame; returns None.
-            Missing frame_duration can raise AttributeError; this pre-existing contract
-            is retained.
-        """
+    def update(self, dt):
         if not self.animating:
             return
 
-        self.elapsed += dt
-
-        if self.elapsed >= self.frame_duration:
+        self.elapsed += max(0, dt)
+        while self.elapsed >= self.frame_duration and self.animating:
             self.elapsed -= self.frame_duration
             self.current_frame += 1
 
@@ -89,18 +57,13 @@ class Chef:
                 self.current_frame = len(self.frames) - 1
                 self.animating = False
 
-    def draw(self, screen, anchor):
-        """Blit the current source-sized frame at a midbottom scene-pixel anchor.
-
-        Operation:
-            Align the selected source frame to a midbottom baseline.
-        Input:
-            screen, anchor: scene pixels; current_frame and frames.
-        Output:
-            Blits the current frame; returns None.
-        """
-        x, floor = anchor
+    def draw(self, screen, anchor, size=None):
         image = self.frames[self.current_frame]
-
-        rect = image.get_rect(midbottom=(x, floor))
-        screen.blit(image, rect)
+        if size:
+            scale = min(size[0] / image.get_width(), size[1] / image.get_height())
+            scaled_size = (
+                round(image.get_width() * scale),
+                round(image.get_height() * scale),
+            )
+            image = pygame.transform.smoothscale(image, scaled_size)
+        screen.blit(image, image.get_rect(midbottom=anchor))

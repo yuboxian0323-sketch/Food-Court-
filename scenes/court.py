@@ -105,6 +105,7 @@ class Court(Scene):
             GAME_OVER; returns None.
         """
         self.session.update(0 if self.transitioned else dt)
+        self.game.scene_assets.update_chef(dt,self.session.chef_expression)
         self.transitioned=False
         if self.session.stage=='GAME_OVER':
             from scenes.results import Results
@@ -178,7 +179,7 @@ class Court(Scene):
         """
         ui,session=self.game.ui,self.session
         self.panel(screen,s.DIALOGUE)
-        title='KNIFE\'S ARGUMENT'
+        title='KNIFE:' #Speaker title
         text=session.question.argument
         color=self.ink
         size=28
@@ -195,8 +196,8 @@ class Court(Scene):
             color='#356341' if session.result=='correct' else '#9e372b'
         elif session.stage=='OBJECTION_ANIMATION':title='CHEF: OBJECTION SUSTAINED!'
         elif session.stage=='MISTAKE_ANIMATION':title='THE CHEF IS RULING...'
-        ui.text(screen,title,(122,94),24,color)
-        ui.paragraph(screen,text,(122,124,1036,68),size,self.ink)
+        ui.text(screen,title,(122,564),24,color) #Speaker
+        ui.paragraph(screen,text,(122,604,1036,68),size,self.ink) #Dialogue
 
     def draw_board(self,screen):
         """Composite the board and frozen or moving labels as one animated layer.

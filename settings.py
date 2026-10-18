@@ -10,8 +10,8 @@ Output:
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-WIDTH, HEIGHT = 1280, 720
-FPS = 120
+WIDTH, HEIGHT = 1280, 720 #Game window 
+FPS = 60
 ANSWER_TIME = 10.0
 START_HP = 100
 DAMAGE = 20
@@ -93,16 +93,16 @@ ESCAPE_DELAY = 0.25
 COURTROOM_ASSET = ROOT / 'assets/Background.png'
 KNIFE_ASSET = ROOT / 'assets/Knife_SpriteSheet.png'
 BOARD_ASSET = ROOT / 'assets/plank-chopping-board-cartoon-illustration-vector.jpg'
-KNIFE_ANCHOR = (240, 618)
+KNIFE_ANCHOR = (240, 518)
 KNIFE_WIDTH = 380
-TOMATO_ANCHOR = (1050, 620)
+TOMATO_ANCHOR = (1050, 520)
 TOMATO_WIDTH = 220
-CHEF_ANCHOR = (640, 498)
-CHEF_PORTRAIT_SIZE = (190, 220)
+CHEF_ANCHOR = (640, 598)
+CHEF_PORTRAIT_SIZE = (380, 440)
 CENTRAL_BENCH_FOREGROUND = (330, 424, 620, 162)
 FRONT_DESK_FOREGROUND = (0, 608, 1280, 112)
 HUD = (28, 16, 1224, 46)
-DIALOGUE = (100, 80, 1080, 120)
+DIALOGUE = (100, 550, 1080, 120)
 BOARD_RECT = (280, 100, 720, 600)
 # Operation: Safe wood only: below the rotated handle and inset from curved outer edges.
 # Input: Rotated board silhouette, handle location, and curved borders.
