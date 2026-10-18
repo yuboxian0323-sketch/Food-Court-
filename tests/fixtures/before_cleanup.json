@@ -9,15 +9,15 @@
   },
   "progression": "dbd3dc4a60ff6bcb0f872d828dc87f2523222f8d52d1714f2333d7126ebbeb4f",
   "images": {
-    "reading": "c21225feacb1e806809346c6725e06101d4f0038839a9c1d51e9db3aa24a264f",
-    "enter": "85681699c4f856db61331229a9f9bbe7774541c99b9a9e0a8cbe9602fca61327",
-    "answering": "ddb8d834108ff5630e9c1ce93a76ef581a91f9301377325139ca0de88d2832ba",
-    "wrong/0.1": "a71e9299cf76b6ced3dadbb2faecc1fc0467c4c576a3b71cb6877ba8bf484f81",
-    "wrong/0.4": "77cc1af4084fd7dc962f6fb1a028f0e5f7b0dda4496ac4074a22de5fa1c726ce",
-    "wrong/1.0": "e26f28186ad1d18e1d61921ff1bada62da4ff4d52986e2ea9ccc386096dc43cc",
-    "feedback": "8af606de0d2ff537a2ba89ce03e640b509fb757c486ecd4fff3129c62b7c7a76",
-    "exit": "67be394d9a0a06f7a4128326b150bd0c3907d9bfb2d4ea34fcfe366c042e544e",
-    "timeout": "8510fd458ac706f458358f0503217e2ccb7dd9bef6ae64978c70c75151aaa014"
+    "reading": "6324c43f15d9b4d71c2ae8334d982445c9979dead9c91e16786abfeeb34fc59b",
+    "enter": "93a400afad0449689352cbaea14a85e6e2c4db90e2d402848f616e74013b7d0f",
+    "answering": "7e8c7433d0ac00aa65b5bbc1f9f442fe9600aacf973c310374b5b817a28599ad",
+    "wrong/0.1": "026342e0dac0a3a7fd58b59720deb2f24347624bb1dcf30e543146eae313ec45",
+    "wrong/0.4": "002baaeca59d0bc66cd36f4f25a430dc8e90f91c50bbdc46c78857a606466424",
+    "wrong/1.0": "84dddc5b8e1e27d1446e61dd59c631c469b370658494c7b096efeeeaead3f2a5",
+    "feedback": "33d04ac5f669a1ae2b46aa1501c9ebc24978605012e350f7560fddf163bbcab9",
+    "exit": "b12c49d85f031b1b40dae3c6aaf5826a4cecd666616fb41ae2fcca5fb1473ffb",
+    "timeout": "740728d7e5207f293431e5ba602c9f414d01aab3dad9ff53bc055dd63fb30151"
   },
   "environment": {
     "platform": "darwin",

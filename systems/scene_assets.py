@@ -99,11 +99,12 @@ class SceneAssets:
             knife_frame = self.KNIFE_EXPRESSIONS.get(
                 session.gadget_expression, 0
             )
+            knife_scale = s.KNIFE_WIDTH / self.knife.frames[knife_frame].get_width()
             self.knife.draw(
                 screen,
                 knife_frame,
                 s.KNIFE_ANCHOR,
-                s.KNIFE_WIDTH,
+                knife_scale,
             )
 
         self.tomato.draw(

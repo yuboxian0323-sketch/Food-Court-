@@ -69,6 +69,6 @@ class Tomato:
             y += round((math.cos(shake_time * 48) - 1) * 2 * decay)
 
         # Anchor represents the bottom-center of the tomato.
-        position = (x - width // 2, y - height)
+        position = (x - width // 2, y - frame.get_height())
 
         screen.blit(frame, position)
