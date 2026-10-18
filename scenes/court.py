@@ -43,6 +43,7 @@ class Court(Scene):
 
     def update(self,dt):
         self.session.update(0 if self.transitioned else dt)
+        self.game.scene_assets.update_chef(dt,self.session.chef_expression)
         self.transitioned=False
         if self.session.stage=='GAME_OVER':
             from scenes.results import Results

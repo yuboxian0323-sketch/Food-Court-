@@ -24,18 +24,6 @@ def eyes(screen, center, expression):
         pygame.draw.arc(screen, INK, (x-15, y+5, 30, 20), 3.2, 6.1, 3)
 
 
-def _draw_chef(screen, anchor, expression):
-    x, floor = anchor
-    pygame.draw.rect(screen, '#edf0ed', (x-65, floor-100, 130, 85), border_radius=24)
-    pygame.draw.rect(screen, INK, (x-65, floor-100, 130, 85), 2, border_radius=24)
-    pygame.draw.ellipse(screen, '#efcba8', (x-49, floor-185, 98, 102))
-    for dx, dy in ((-34, -209), (0, -225), (34, -209)):
-        pygame.draw.circle(screen, '#ffffff', (x+dx, floor+dy+40), 30)
-    pygame.draw.rect(screen, '#ffffff', (x-56, floor-185, 112, 30))
-    pygame.draw.line(screen, INK, (x-56, floor-155), (x+56, floor-155), 2)
-    eyes(screen, (x, floor-133), expression)
-    pygame.draw.rect(screen, '#a37852', (x-100, floor-20, 200, 20), border_radius=3)
-
 
 def _draw_gadget(screen, anchor, expression):
     x, floor = anchor
@@ -46,12 +34,6 @@ def _draw_gadget(screen, anchor, expression):
     eyes(screen, (x, floor-127), expression)
     pygame.draw.rect(screen, '#a37852', (x-75, floor-10, 150, 10), border_radius=3)
 
-
-def draw_chef(screen, anchor, expression):
-    portrait=pygame.Surface((220,240),pygame.SRCALPHA)
-    _draw_chef(portrait,(110,240),expression)
-    portrait=pygame.transform.smoothscale(portrait,(110,120))
-    screen.blit(portrait,(anchor[0]-55,anchor[1]-120))
 
 
 def draw_gadget(screen, anchor, expression):

@@ -3,7 +3,7 @@ from functools import lru_cache
 import math
 import pygame
 import settings as s
-from entities.character import _draw_chef
+from entities.chef import Chef
 
 
 class SpriteStrip:
@@ -49,7 +49,8 @@ class SceneAssets:
         self.tomato=SpriteStrip(s.ROOT/'assets/Tomato_SpriteSheet.png')
         self.background=self.load_background()
         self.board=self.load_board()
-        self.chef_frames={state:self.make_chef(state) for state in ('listening','surprised','stern')}
+        self.chef=Chef(s.ROOT/'assets/Chef_SpriteSheet.png')
+        self.chef_expression='listening'
         self.board_shadow=self.make_shadow((s.BOARD_RECT[2],s.BOARD_RECT[3]))
 
     def load_background(self):
@@ -94,16 +95,18 @@ class SceneAssets:
             pygame.draw.rect(shadow,(25,13,5,3+(16-inset)),(16-inset,16-inset,size[0]+inset*2,size[1]+inset*2),border_radius=50)
         return shadow
 
-    @staticmethod
-    def make_chef(expression):
-        portrait=pygame.Surface((220,240),pygame.SRCALPHA)
-        _draw_chef(portrait,(110,240),expression)
-        return pygame.transform.smoothscale(portrait,s.CHEF_PORTRAIT_SIZE)
+    def update_chef(self, dt, expression):
+        if expression != self.chef_expression:
+            self.chef_expression=expression
+            if expression=='listening':
+                self.chef.reset()
+            else:
+                self.chef.play()
+        self.chef.update(dt)
 
     def draw_courtroom(self, screen, session):
         screen.blit(self.background,(0,0))
-        chef=self.chef_frames[session.chef_expression]
-        screen.blit(chef,chef.get_rect(midbottom=s.CHEF_ANCHOR))
+        self.chef.draw(screen,s.CHEF_ANCHOR,s.CHEF_PORTRAIT_SIZE)
         # Reuse precisely the same transformed background pixels. The Chef is
         # drawn first, then the physical bench front occludes their lower body.
         bench=pygame.Rect(s.CENTRAL_BENCH_FOREGROUND)
