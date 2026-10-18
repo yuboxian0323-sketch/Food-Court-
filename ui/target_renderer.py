@@ -52,9 +52,14 @@ class TargetRenderer:
         self.scale = s.TARGET_SUBPIXEL_SCALE
         self.raster_scale=s.TARGET_RASTER_SCALE
         self.fonts = {size: pygame.font.Font(None, size*self.raster_scale) for size in (20,24)}
+        # Instance-owned caches let old scenes and their surfaces be collected when
+        # the game restarts; decorating methods at class scope retains `self` globally.
+        self.sprite = lru_cache(maxsize=32)(self._sprite)
+        self.translated = lru_cache(maxsize=128)(self._translated)
 
-    @lru_cache(maxsize=96)
-    def sprite(self, name, width, height, size, feedback, hover):
+    # Keep the rendered label cache small. At 260×100 pixels, a single RGBA
+    # surface is about 100 KiB; the translation cache below is larger still.
+    def _sprite(self, name, width, height, size, feedback, hover):
         """Return a cached premultiplied label for the requested size and visual state.
 
         Operation:
@@ -87,8 +92,9 @@ class TargetRenderer:
         # Output: Downsampled premultiplied sprite cached for fractional translations.
         return pygame.transform.smoothscale(surface,(width,height)).premul_alpha()
 
-    @lru_cache(maxsize=768)
-    def translated(self, name, width, height, size, feedback, hover, phase_x, phase_y):
+    # Positions can produce many subpixel phases over a long session. A bounded
+    # cache is essential here: every entry owns a full-size RGBA Surface.
+    def _translated(self, name, width, height, size, feedback, hover, phase_x, phase_y):
         """Return a cached fractional translation using four weighted native blits.
 
         Operation:
@@ -138,5 +144,13 @@ class TargetRenderer:
         floor_x,floor_y=math.floor(x),math.floor(y)
         phase_x=round((x-floor_x)*self.scale)
         phase_y=round((y-floor_y)*self.scale)
+        # Rounding the final phase can reach `scale`; carry that pixel into the
+        # integer origin so equivalent phases do not occupy separate cache slots.
+        if phase_x >= self.scale:
+            floor_x += 1
+            phase_x = 0
+        if phase_y >= self.scale:
+            floor_y += 1
+            phase_y = 0
         image=self.translated(target.name,target.width,target.height,size,feedback,hover,phase_x,phase_y)
         screen.blit(image,(floor_x,floor_y),special_flags=pygame.BLEND_PREMULTIPLIED)

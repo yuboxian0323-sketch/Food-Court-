@@ -47,6 +47,8 @@ class Court(Scene):
         self.transitioned=False
         self.target_renderer=TargetRenderer(game.ui)
         self.board_layer=pygame.Surface((s.WIDTH,s.HEIGHT),pygame.SRCALPHA)
+        self.mistake_tint=pygame.Surface((s.WIDTH,s.HEIGHT),pygame.SRCALPHA)
+        self.panel_cache={}
         self.banner_cache={}
 
     def handle_event(self,event):
@@ -112,9 +114,13 @@ class Court(Scene):
             Blits the panel; returns None.
         """
         rect=pygame.Rect(rect)
-        surface=pygame.Surface(rect.size,pygame.SRCALPHA)
-        pygame.draw.rect(surface,fill,surface.get_rect(),border_radius=14)
-        pygame.draw.rect(surface,border,surface.get_rect(),2,border_radius=14)
+        key=(rect.size,fill,border)
+        surface=self.panel_cache.get(key)
+        if surface is None:
+            surface=pygame.Surface(rect.size,pygame.SRCALPHA)
+            pygame.draw.rect(surface,fill,surface.get_rect(),border_radius=14)
+            pygame.draw.rect(surface,border,surface.get_rect(),2,border_radius=14)
+            self.panel_cache[key]=surface
         screen.blit(surface,rect)
 
     def button(self,screen,text):
@@ -348,7 +354,7 @@ class Court(Scene):
         # Input: Mistake tint alpha, stage, and rendered court/UI layers.
         # Output: Tint overlays the court; exactly one outcome ribbon is drawn above it.
         if session.tint_alpha:
-            tint=pygame.Surface((s.WIDTH,s.HEIGHT),pygame.SRCALPHA)
-            tint.fill((198,48,38,session.tint_alpha));screen.blit(tint,(0,0))
+            self.mistake_tint.fill((198,48,38,session.tint_alpha))
+            screen.blit(self.mistake_tint,(0,0))
         if session.stage=='OBJECTION_ANIMATION':self.draw_objection(screen)
         elif session.stage=='MISTAKE_ANIMATION':self.draw_wrong_banner(screen)

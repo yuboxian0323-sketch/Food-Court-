@@ -9,6 +9,7 @@ from systems.expressions import TOMATO_FRAMES, tomato_expression_for_hp
 class Tomato:
     def __init__(self):
         self.frames = []
+        self.scaled_frames = {}
 
         sheet = pygame.image.load(
             str(s.TOMATO_ASSET)
@@ -49,11 +50,15 @@ class Tomato:
             expression = tomato_expression_for_hp(hp)
             frame_index = TOMATO_FRAMES[expression]
 
-        frame = self.frames[frame_index]
-
-        # Resize while keeping the image's aspect ratio.
-        height = round(frame.get_height() * width / frame.get_width())
-        frame = pygame.transform.smoothscale(frame, (width, height))
+        # Reuse scaled frames. draw() runs every frame, so scaling here without a
+        # cache created a fresh image surface continuously even at the default size.
+        key = (frame_index, width)
+        frame = self.scaled_frames.get(key)
+        if frame is None:
+            source = self.frames[frame_index]
+            height = round(source.get_height() * width / source.get_width())
+            frame = pygame.transform.smoothscale(source, (width, height))
+            self.scaled_frames[key] = frame
 
         # Shake the tomato during the mistake animation.
         x, y = anchor

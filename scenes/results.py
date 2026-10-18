@@ -12,6 +12,8 @@ class Results(Scene):
 
     def __init__(self,game): #Result screen created
         self.game=game
+        self.shade=pygame.Surface((s.WIDTH,s.HEIGHT),pygame.SRCALPHA)
+        self.shade.fill((39,23,15,165))
 
     def handle_event(self,event):
       #Responds to input events; clicks on buttons restart or quit the game.
@@ -26,7 +28,7 @@ class Results(Scene):
         screen.blit(self.game.scene_assets.background,(0,0))
 
         #Dims background
-        shade=pygame.Surface((s.WIDTH,s.HEIGHT),pygame.SRCALPHA);shade.fill((39,23,15,165));screen.blit(shade,(0,0))
+        screen.blit(self.shade,(0,0))
 
         #Draw results panel and text
         panel=pygame.Rect(310,100,660,425)

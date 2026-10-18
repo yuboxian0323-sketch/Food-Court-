@@ -1,7 +1,6 @@
 
 import math
 from functools import lru_cache
-
 import pygame
 import settings as s
 

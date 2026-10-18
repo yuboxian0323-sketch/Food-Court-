@@ -14,6 +14,9 @@ MUTED = '#b0bfcb'
 ACCENT = '#f1c578'
 GREEN = '#91ddb1'
 RED = '#f69a91'
+BACKGROUND_COLOR = '#111b24'
+
+TITLE = 'Food Court'
 
 # Operation: Answer label dimensions and motion. Courtroom placement is configured
 #     below.
