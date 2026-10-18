@@ -25,7 +25,7 @@ For the existing local environment:
 
 - Read without a time limit. **Ready** slides the board into view over 0.35 seconds; its completion starts the full 10-second answer timer.
 - Click a moving label: +100 points if correct, -20 HP if incorrect or too late. Five mistakes end the session. No healing, bonuses, or victory condition.
-- Correct answers show a 1.2-second **OBJECTION!** toward Knife. Wrong answers/timeouts show a red ribbon before revealing the explanation.
+- Correct answers show a green **OBJECTION!** ribbon with the same 1.10-second animation as mistakes. Wrong answers/timeouts show a red ribbon before revealing the explanation.
 - Feedback names the correct answer, explains the reasoning, and marks targets with both text and color. **Continue** dismisses the board before the next round. The final explanation appears before **View results**.
 - New fallacy cards appear during untimed reading; **Got it** dismisses the card. Read the question, then press **Ready**.
 - **Play Again** resets the full session, including unlocks, counters, targets, reactions, effects, and timer. Close the window to quit at any stage.
@@ -101,6 +101,6 @@ The supplied `assets/images.jpeg` is the courtroom. Foreground pixels from the s
 
 Round flow: READING → BOARD_ENTER → ANSWERING → OBJECTION_ANIMATION or MISTAKE_ANIMATION → FEEDBACK → BOARD_EXIT → next round/results. Choices freeze on resolution. Continue appears after the outcome animation, and the board exits over 0.25 seconds before the next question. There is no existing pause control.
 
-Wrong answers show a red ribbon with configurable `WRONG_BANNER_TEXT` (default `INCORRECT!`); timeout uses `TIMEOUT_BANNER_TEXT`. Banner entrance/hold/exit take 0.20/0.65/0.25 seconds, using the regular update loop. The correct-only gold OBJECTION effect remains distinct. Placement, usable board bounds, animation timing, and motion controls are in `settings.py`.
+Wrong answers show a red ribbon with configurable `WRONG_BANNER_TEXT` (default `INCORRECT!`); timeout uses `TIMEOUT_BANNER_TEXT`. Banner entrance/hold/exit take 0.20/0.65/0.25 seconds, using the regular update loop. Correct answers use the same ribbon geometry and animation with a rich green background and white OBJECTION! lettering. Placement, usable board bounds, animation timing, and motion controls are in `settings.py`.
 
 Current courtroom recordings are `output/courtroom-2-choices.webp` and `output/courtroom-8-choices.webp`. Representative rendered frames cover entrance, exit, correct, wrong, timeout, explanation, game over, and restart. Native window interaction still needs a human playtest; rendered-frame inspection and automated checks do not measure physical monitor smoothness.

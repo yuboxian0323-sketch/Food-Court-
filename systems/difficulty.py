@@ -1,15 +1,37 @@
-"""The explicit Section 5.7 unlock schedule, validated against content."""
+"""The explicit Section 5.7 unlock schedule, validated against content.
+
+Operation:
+    Validate ordered unlock thresholds and derive eligible topic IDs.
+Input:
+    Difficulty JSON, valid fallacy IDs, and one-based question numbers.
+Output:
+    Immutable validated schedule/ID tuples, or ContentError diagnostics.
+"""
 import json
 from systems.question_bank import ContentError
 
 
 def load_schedule(path, fallacies):
+    """Read and validate ordered unlock thresholds against the fallacy mapping.
+
+    Operation:
+        Validate monotonic thresholds, unique topics, and full content coverage.
+    Input:
+        path: JSON schedule; fallacies: valid ID mapping.
+    Output:
+        Returns immutable threshold/ID tuples; raises ContentError for file or
+        validation failures.
+    """
     try:
         rows = json.loads(path.read_text(encoding='utf-8'))['schedule']
         if not isinstance(rows, list) or not rows:
             raise ValueError('schedule must be a non-empty list')
         previous, seen = 0, set()
         schedule = []
+        # Operation: Enforce monotonic thresholds and exactly one introduction for every
+        #     topic.
+        # Input: Schedule rows, valid fallacy IDs, and previously seen topics.
+        # Output: Validated increasing thresholds with each topic introduced once.
         for row in rows:
             number, ids = row['question'], row['unlock']
             if type(number) is not int or number <= previous:
@@ -32,4 +54,13 @@ def load_schedule(path, fallacies):
 
 
 def unlocked_at(schedule, number):
+    """Return IDs unlocked by the supplied one-based question number, in order.
+
+    Operation:
+        Flatten thresholds reached by the current question in schedule order.
+    Input:
+        schedule and number: one-based question number.
+    Output:
+        Returns a tuple of unlocked IDs without state changes.
+    """
     return tuple(id_ for threshold, ids in schedule if number >= threshold for id_ in ids)

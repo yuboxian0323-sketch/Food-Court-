@@ -1,0 +1,28 @@
+{
+  "motion": {
+    "2/30": "87640702e82bed5bc12d8033d9f50b2b6e929754cf6ffb208db018075eb6caed",
+    "2/60": "568974b0bbcbf2c69167287e8d811d7d603071cd12a207a895b5f0bbb7cdd39e",
+    "2/144": "d0d265a09018ac51fee5d1b642e4591b9cc28d77ab8b1f5abfae23799df4526d",
+    "8/30": "277434b844ca3e8ed3caf64139740ca8b4ed78cf436a39f5fd73201874764516",
+    "8/60": "9033e24dbe1ca0bc1391f9ede63f56b97c6882a0e7bbc5c709eb1484524a340e",
+    "8/144": "1d41ace92931403ef72a8ca96a2f216156aa41ce1b909e98fda5b35f891ec6d3"
+  },
+  "progression": "dbd3dc4a60ff6bcb0f872d828dc87f2523222f8d52d1714f2333d7126ebbeb4f",
+  "images": {
+    "reading": "c21225feacb1e806809346c6725e06101d4f0038839a9c1d51e9db3aa24a264f",
+    "enter": "85681699c4f856db61331229a9f9bbe7774541c99b9a9e0a8cbe9602fca61327",
+    "answering": "ddb8d834108ff5630e9c1ce93a76ef581a91f9301377325139ca0de88d2832ba",
+    "wrong/0.1": "a71e9299cf76b6ced3dadbb2faecc1fc0467c4c576a3b71cb6877ba8bf484f81",
+    "wrong/0.4": "77cc1af4084fd7dc962f6fb1a028f0e5f7b0dda4496ac4074a22de5fa1c726ce",
+    "wrong/1.0": "e26f28186ad1d18e1d61921ff1bada62da4ff4d52986e2ea9ccc386096dc43cc",
+    "feedback": "8af606de0d2ff537a2ba89ce03e640b509fb757c486ecd4fff3129c62b7c7a76",
+    "exit": "67be394d9a0a06f7a4128326b150bd0c3907d9bfb2d4ea34fcfe366c042e544e",
+    "timeout": "8510fd458ac706f458358f0503217e2ccb7dd9bef6ae64978c70c75151aaa014"
+  },
+  "environment": {
+    "platform": "darwin",
+    "python": "3.9.6",
+    "machine": "arm64",
+    "pygame": "2.6.1"
+  }
+}

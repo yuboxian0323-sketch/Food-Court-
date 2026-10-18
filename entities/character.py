@@ -1,10 +1,27 @@
-"""Small drawn stand-ins for missing Chef and gadget art, with clear reactions."""
+"""Small drawn stand-ins for missing Chef and gadget art, with clear reactions.
+
+Operation:
+    Paint legacy Chef/gadget portraits from Pygame drawing primitives.
+Input:
+    Destination surfaces, scene-pixel anchors, and expression names.
+Output:
+    Drawn fallback artwork; no asset loads or gameplay updates.
+"""
 import pygame
 
 INK = '#263b4d'
 
 
 def eyes(screen, center, expression):
+    """Draw the fallback facial reaction around a scene-pixel center.
+
+    Operation:
+        Select fallback facial geometry for the expression.
+    Input:
+        screen: destination; center: scene pixels; expression: reaction name.
+    Output:
+        Draws eyes/mouth on screen; returns None.
+    """
     x, y = center
     for offset in (-15, 15):
         pygame.draw.circle(screen, INK, (x+offset, y), 4)
@@ -25,6 +42,15 @@ def eyes(screen, center, expression):
 
 
 def _draw_chef(screen, anchor, expression):
+    """Paint the full-size fallback Chef above a midbottom anchor.
+
+    Operation:
+        Paint the full-size fallback portrait above its baseline.
+    Input:
+        screen, midbottom anchor in pixels, and expression.
+    Output:
+        Draws Chef geometry; returns None.
+    """
     x, floor = anchor
     pygame.draw.rect(screen, '#edf0ed', (x-65, floor-100, 130, 85), border_radius=24)
     pygame.draw.rect(screen, INK, (x-65, floor-100, 130, 85), 2, border_radius=24)
@@ -38,6 +64,15 @@ def _draw_chef(screen, anchor, expression):
 
 
 def _draw_gadget(screen, anchor, expression):
+    """Paint the legacy fallback gadget above a midbottom anchor.
+
+    Operation:
+        Paint the full-size legacy gadget portrait above its baseline.
+    Input:
+        screen, midbottom anchor in pixels, and expression.
+    Output:
+        Draws gadget geometry; returns None.
+    """
     x, floor = anchor
     pygame.draw.rect(screen, '#91a6b6', (x-11, floor-64, 22, 64), border_radius=8)
     for width in (100, 70, 40):
@@ -48,6 +83,15 @@ def _draw_gadget(screen, anchor, expression):
 
 
 def draw_chef(screen, anchor, expression):
+    """Draw the legacy half-size Chef portrait at a midbottom anchor.
+
+    Operation:
+        Scale a legacy Chef canvas to half size and align its baseline.
+    Input:
+        screen, midbottom scene-pixel anchor, and expression.
+    Output:
+        Blits a 110×120 portrait; returns None.
+    """
     portrait=pygame.Surface((220,240),pygame.SRCALPHA)
     _draw_chef(portrait,(110,240),expression)
     portrait=pygame.transform.smoothscale(portrait,(110,120))
@@ -55,6 +99,15 @@ def draw_chef(screen, anchor, expression):
 
 
 def draw_gadget(screen, anchor, expression):
+    """Draw the legacy half-size gadget portrait at a midbottom anchor.
+
+    Operation:
+        Scale a legacy gadget canvas to half size and align its baseline.
+    Input:
+        screen, midbottom scene-pixel anchor, and expression.
+    Output:
+        Blits a 90×110 portrait; returns None.
+    """
     portrait=pygame.Surface((180,220),pygame.SRCALPHA)
     _draw_gadget(portrait,(90,220),expression)
     portrait=pygame.transform.smoothscale(portrait,(90,110))

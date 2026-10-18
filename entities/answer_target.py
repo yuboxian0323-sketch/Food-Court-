@@ -1,8 +1,13 @@
 """Continuous two-dimensional wander, integrated in bounded fixed steps.
 
-Randomness changes a smoothly filtered steering rate, never position/velocity.
-Every target shares the entire answer box. Predictive rectangle separation
-and soft wall steering act before any containment safeguard.
+Operation:
+    Plan smooth steering and integrate shared moving answer labels.
+Input:
+    Seeded target state, elapsed seconds, label rectangles, and board bounds in scene
+    pixels.
+Output:
+    Mutable simulation state and fractional hit/display positions; no source data or
+    file writes.
 """
 import math
 import random
@@ -14,6 +19,16 @@ import settings as s
 
 @dataclass
 class AnswerTarget:
+    """Track one upright label in shared board coordinates.
+
+    Operation:
+        Retain independent steering history and a shared board boundary.
+    Input:
+        Fallacy identity, label dimensions, seeded RNG, and scene-pixel motion state.
+    Output:
+        Mutable target state; positions use pixels and velocities use pixels/second.
+    """
+
     fallacy_id: str
     name: str
     bounds: tuple
@@ -39,12 +54,32 @@ class AnswerTarget:
     escape_heading: float = None
 
     def __post_init__(self):
+        """Seed the interpolation history from the hidden initial position.
+
+        Operation:
+            Copy the initial position into interpolation history.
+        Input:
+            The hidden initial position vector.
+        Output:
+            Sets previous_position to an independent copy; returns None.
+        """
         self.previous_position = self.position.copy()
 
     @property
     def draw_position(self):
-        # Interpolate between fixed-step states; at high-refresh frame rates
-        # a render frame may occur between physics ticks. Never extrapolate.
+        # Operation: Interpolate between fixed-step states; at high-refresh frame rates
+        #     a render frame may occur between physics ticks. Never extrapolate.
+        # Input: Previous/current vectors and accumulator seconds.
+        # Output: Interpolated, subpixel-quantized origin shared by drawing and clicks.
+        """Return the quantized interpolated position used by both drawing and clicks.
+
+        Operation:
+            Interpolate fixed-step positions and quantize fractional coverage.
+        Input:
+            Previous/current positions, accumulator seconds, and subpixel settings.
+        Output:
+            Returns a scene-pixel Vector2 used by drawing and hit testing.
+        """
         alpha=max(0.0,min(1.0,self.accumulator/s.MOTION_STEP))
         point=self.previous_position.lerp(self.position,alpha)
         scale=s.TARGET_SUBPIXEL_SCALE
@@ -52,34 +87,94 @@ class AnswerTarget:
 
     @property
     def x(self):
+        """Return the simulation x coordinate in scene pixels.
+
+        Operation:
+            Read the simulated horizontal coordinate.
+        Input:
+            Current floating-point position.
+        Output:
+            Returns x in scene pixels without changing state.
+        """
         return self.position.x
 
     @property
     def rect(self):
+        """Return an integer approximation of the displayed label rectangle.
+
+        Operation:
+            Round the displayed origin for integer rectangle consumers.
+        Input:
+            Interpolated draw_position and full label dimensions.
+        Output:
+            Returns a pygame.Rect; contains() remains the exact fractional hit test.
+        """
         point=self.draw_position
         return pygame.Rect(round(point.x), round(point.y), self.width, self.height)
 
     @property
     def limits(self):
+        """Return padded left/top/right/bottom limits for the label origin.
+
+        Operation:
+            Inset the shared board boundary by padding and label size.
+        Input:
+            bounds: scene-pixel x/y/width/height; label size; TARGET_PADDING.
+        Output:
+            Returns left/top/right/bottom limits for the label origin.
+        """
         x,y,w,h = self.bounds
         p = s.TARGET_PADDING
         return x+p, y+p, x+w-p-self.width, y+h-p-self.height
 
     def update(self, dt):
+        """Advance this isolated target by dt seconds; shared play uses update_targets.
+
+        Operation:
+            Delegate isolated motion to the shared fixed-step updater.
+        Input:
+            dt: elapsed seconds; this target state.
+        Output:
+            Mutates this target via update_targets; returns None.
+        """
         update_targets([self], dt)
 
     def contains(self, point):
+        """Return whether a scene-pixel point lies in the displayed half-open hitbox.
+
+        Operation:
+            Apply half-open rectangle containment at the displayed origin.
+        Input:
+            point: scene-pixel x/y; draw_position and label dimensions.
+        Output:
+            Returns bool without advancing motion.
+        """
         x,y=self.draw_position
         return x<=point[0]<x+self.width and y<=point[1]<y+self.height
 
     def plan_turn(self, neighbors):
+        """Choose a curved steering rate that anticipates walls and neighboring rectangles.
+
+        Operation:
+            Score candidate curved paths against walls and predicted neighboring
+            rectangles.
+        Input:
+            Neighbor snapshots (x, y, vx, vy, width, height), own heading/speed, and
+            steering settings.
+        Output:
+            Returns a target angular rate in radians/second; never changes position.
+        """
         left,top,right,bottom=self.limits
         margin_x=min(s.WALL_MARGIN,(right-left)*.3)
         margin_y=min(s.WALL_MARGIN,(bottom-top)*.3)
         best_cost=float('inf')
         best_turn=self.steering
-        # Predict gentle arcs, including the time needed to ease into a turn.
-        # Candidate rates are steering controls, never destination positions.
+        # Operation: Predict gentle arcs, including the time needed to ease into a turn.
+        #     Candidate rates are steering controls, never destination positions.
+        # Input: Current heading/speed, candidate turn rates, and prediction step
+        #     seconds.
+        # Output: Lowest-cost angular rate; candidate paths never become target
+        #     positions.
         candidates=[self.steering]+[s.MAX_TURN_RATE*i/6 for i in range(-6,7)]
         h=s.STEERING_PREDICTION_STEP
         for candidate in candidates:
@@ -96,8 +191,11 @@ class AnswerTarget:
                 for d,margin in zip(distances,(margin_x,margin_x,margin_y,margin_y)):
                     cost += s.WALL_STRENGTH*max(0,(margin-d)/max(1,margin))**4
                     if d<0:cost+=10000*(1-d)
-                # Rectangle separation anticipates another label entering the
-                # readability gap, accounting for both actual label sizes.
+                # Operation: Rectangle separation anticipates another label entering the
+                #     readability gap, accounting for both actual label sizes.
+                # Input: Predicted label rectangles, neighbor velocities, and
+                #     readability gap.
+                # Output: Adds future overlap penalties to the candidate steering cost.
                 future_time=(step+1)*h
                 if future_time<=s.SEPARATION_LOOKAHEAD:
                     for ox,oy,vx,vy,ow,oh in neighbors:
@@ -113,6 +211,15 @@ class AnswerTarget:
         return best_turn
 
     def open_heading(self, neighbors):
+        """Find a clear heading for a congested target without moving it.
+
+        Operation:
+            Score escape rays when congestion reduces cruising speed.
+        Input:
+            Neighbor snapshots, own position/heading/speed, and padded limits.
+        Output:
+            Returns a heading in radians without relocating the label.
+        """
         left,top,right,bottom=self.limits
         best=(float('inf'),self.heading)
         for i in range(24):
@@ -131,7 +238,21 @@ class AnswerTarget:
         return best[1]
 
     def step(self, dt, neighbors):
+        """Advance steering history by dt seconds and return preferred velocity.
+
+        Operation:
+            Filter random steering, plan turns, recover from congestion, and limit
+            acceleration.
+        Input:
+            dt: substep seconds; neighbor snapshots; independent RNG and motion history.
+        Output:
+            Updates steering/history and returns preferred Vector2 velocity; does not
+            integrate position.
+        """
         self.previous_position.update(self.position)
+        # Operation: Refresh independent random steering targets, then filter gradually.
+        # Input: dt seconds, each label's RNG, steering clock, and response settings.
+        # Output: Updated steering target/rate without assigning position or velocity.
         self.change_remaining-=dt
         if self.change_remaining<=0:
             self.change_remaining+=self.rng.uniform(*s.STEERING_CHANGE_INTERVAL)
@@ -141,6 +262,10 @@ class AnswerTarget:
         if self.plan_remaining<=0:
             self.desired_turn=self.plan_turn(neighbors)
             self.plan_remaining+=s.STEERING_PLAN_INTERVAL
+        # Operation: Congestion recovery changes steering only; never relocate a blocked
+        #     label.
+        # Input: Current speed, slow_time, neighboring rectangles, and escape heading.
+        # Output: Updates recovery steering without relocating the label.
         if self.velocity.length()<self.speed*.35:
             self.slow_time+=dt
         else:
@@ -154,10 +279,17 @@ class AnswerTarget:
             else:
                 difference=(self.escape_heading-self.heading+math.pi)%math.tau-math.pi
                 self.desired_turn=max(-s.MAX_TURN_RATE,min(s.MAX_TURN_RATE,difference/.4))
+        # Operation: Filter angular acceleration before deriving the preferred linear
+        #     velocity.
+        # Input: Desired/current angular rates, dt seconds, and acceleration limit.
+        # Output: Updates turn_rate gradually before linear velocity calculation.
         change=(self.desired_turn-self.turn_rate)*(1-math.exp(-dt/s.TURN_RESPONSE))
         self.turn_rate+=max(-s.MAX_ANGULAR_ACCELERATION*dt,min(s.MAX_ANGULAR_ACCELERATION*dt,change))
-        # Steer toward nominal cruising speed; avoidance can ease speed down.
-        # Limit acceleration as well as angular rate to keep turns comfortable.
+        # Operation: Steer toward nominal cruising speed; avoidance can ease speed down.
+        #     Limit acceleration as well as angular rate to keep turns comfortable.
+        # Input: Heading, nominal speed, current velocity, and dt seconds.
+        # Output: Returns smoothly limited preferred velocity; position is not
+        #     integrated here.
         turn_limit=min(s.MAX_TURN_RATE,s.MAX_ACCELERATION/max(1,self.speed))
         self.turn_rate=max(-turn_limit,min(turn_limit,self.turn_rate))
         self.heading+=self.turn_rate*dt
@@ -171,9 +303,17 @@ class AnswerTarget:
 def safe_velocities(targets, preferred, horizon):
     """Project velocities onto shared rectangle-clearance constraints.
 
-    Position is NEVER corrected to separate labels. Each separating axis limits
-    closing velocity before contact, leaving tangential motion free. The slow
-    approach bound gives steering time to curve around the other rectangle.
+    Operation:
+        Project preferred velocities onto wall and pairwise rectangle-clearance
+        constraints. Position is NEVER corrected to separate labels. Each separating
+        axis limits closing velocity before contact, leaving tangential motion free. The
+        slow approach bound gives steering time to curve around the other rectangle.
+    Input:
+        targets, preferred velocity vectors, and horizon seconds; current separation and
+        solver settings.
+    Output:
+        Returns safe velocity vectors and updates separating-axis history. Raises
+        RuntimeError if no valid separating face exists; never translates positions.
     """
     velocities=[v.copy() for v in preferred]
     constraints=[]
@@ -187,9 +327,13 @@ def safe_velocities(targets, preferred, horizon):
             dy=(ay+a.height/2)-(by+b.height/2)
             gx=abs(dx)-(a.width+b.width)/2-gap
             gy=abs(dy)-(a.height+b.height)/2-gap
-            # Choose a separating face, using actual rectangular extents.
-            # Long labels most often pass above/below, rather than detouring
-            # hundreds of pixels around each other's centers.
+            # Operation: Choose a separating face, using actual rectangular extents.
+            #     Long labels most often pass above/below, rather than detouring
+            #     hundreds of pixels around each other's centers. Two pixels of reserve
+            #     absorb raster rounding and solver residuals.
+            # Input: Current full rectangles and readability gap plus rounding reserve.
+            # Output: Candidate separating axes and raw clearance; invalid layouts raise
+            #     RuntimeError.
             axes=[]
             if gx>=-2:axes.append((max(0,gx)/(a.width+b.width),0,1 if dx>=0 else -1,gx))
             if gy>=-2:axes.append((max(0,gy)/(a.height+b.height),1,1 if dy>=0 else -1,gy))
@@ -201,9 +345,13 @@ def safe_velocities(targets, preferred, horizon):
                 old=next((entry for entry in axes if entry[1]==previous),None)
                 if old is not None:
                     alternatives=[entry for entry in axes if entry[1]!=previous]
-                    # Switch faces only when the alternative already has room
-                    # for the current closing velocity. This hysteresis avoids
-                    # a sudden velocity change at diagonal/corner encounters.
+                    # Operation: Switch faces only when the alternative already has room
+                    #     for the current closing velocity. This hysteresis avoids a
+                    #     sudden velocity change at diagonal/corner encounters.
+                    # Input: Previous axis, alternative clearance, closing speed, and
+                    #     horizon seconds.
+                    # Output: Retains stable avoidance axis unless the alternative
+                    #     already has room.
                     safe_alternative=[]
                     for entry in alternatives:
                         _,alt,alt_sign,alt_gap=entry
@@ -213,8 +361,11 @@ def safe_velocities(targets, preferred, horizon):
                     _,axis,sign,clearance=max(safe_alternative) if safe_alternative else old
             a.avoidance_axes[b.fallacy_id]=axis
             constraints.append((i,j,axis,sign,max(0,clearance)/horizon,clearance))
-    # Zero velocity is always feasible for the current separated layout. Use
-    # cyclic projections to share the needed adjustment between both labels.
+    # Operation: Zero velocity is always feasible for the current separated layout. Use
+    #     cyclic projections to share the needed adjustment between both labels.
+    # Input: Preferred velocities, pair constraints, wall limits, and solver iterations.
+    # Output: Projects velocities cyclically, sharing clearance adjustments between
+    #     labels.
     for _ in range(s.SEPARATION_SOLVER_ITERATIONS):
         for i,t in enumerate(targets):
             left,top,right,bottom=t.limits
@@ -229,8 +380,11 @@ def safe_velocities(targets, preferred, horizon):
                 velocities[j][axis]-=sign*excess*.5
                 changed=True
         if not changed:break
-    # A uniform velocity reduction makes any small iterative-solver residual
-    # safe without translating positions or changing direction. Normally 1.0.
+    # Operation: A uniform velocity reduction makes any small iterative-solver residual
+    #     safe without translating positions or changing direction. Normally 1.0.
+    # Input: Residual closing velocities, true clearance, and fixed-step seconds.
+    # Output: Scales velocities uniformly when needed; positions/directions are not
+    #     corrected.
     factor=1.0
     for i,t in enumerate(targets):
         left,top,right,bottom=t.limits
@@ -246,14 +400,33 @@ def safe_velocities(targets, preferred, horizon):
 
 
 def update_targets(targets, dt):
+    """Integrate shared targets with bounded, fixed-duration simulation substeps.
+
+    Operation:
+        Consume bounded fixed substeps using shared snapshots, projection, and
+        integration.
+    Input:
+        targets: mutable labels; dt: seconds; speed multiplier and catch-up settings.
+    Output:
+        Updates positions, velocities, and interpolation/steering history in place;
+        returns None. Nonpositive time/speed leaves state unchanged.
+    """
     if not targets or dt<=0 or s.LABEL_SPEED_MULTIPLIER<=0:
         return
-    # Bound catch-up work after a stalled frame; don't replay seconds of motion
-    # in one visible frame. Normal 30/60/144 FPS all consume identical steps.
+    # Operation: Bound catch-up work after a stalled frame; don't replay seconds of
+    #     motion in one visible frame. Normal 30/60/144 FPS all consume identical steps.
+    # Input: Frame dt, speed multiplier, and maximum catch-up seconds.
+    # Output: Adds bounded elapsed time to target accumulators instead of replaying a
+    #     long stall.
     elapsed = min(dt,s.MOTION_MAX_CATCHUP)*s.LABEL_SPEED_MULTIPLIER
     for t in targets:
         t.accumulator += elapsed
     while targets[0].accumulator+1e-10 >= s.MOTION_STEP:
+        # Operation: Plan from one shared snapshot, then project velocities and
+        #     integrate together.
+        # Input: All current target states and one fixed substep.
+        # Output: Plans from a common snapshot, projects velocities, then integrates
+        #     positions.
         snapshots=[(t.position.x,t.position.y,t.velocity.x,t.velocity.y,t.width,t.height) for t in targets]
         preferred=[t.step(s.MOTION_STEP,snapshots[:i]+snapshots[i+1:]) for i,t in enumerate(targets)]
         velocities=safe_velocities(targets,preferred,s.SEPARATION_HORIZON)
@@ -264,6 +437,16 @@ def update_targets(targets, dt):
 
 
 def make_targets(choices, fallacies, rng):
+    """Create separated, hidden labels with independent random steering state.
+
+    Operation:
+        Pack separated hidden labels, then initialize independent steering generators.
+    Input:
+        choices: 2–8 fallacy IDs; fallacies: name mapping; rng: session generator.
+    Output:
+        Returns targets sharing LABEL_REGION. Raises ValueError for unsupported counts
+        or failed packing; randomness is consumed only during initialization.
+    """
     count=len(choices)
     if not 2<=count<=s.MAX_CHOICES:
         raise ValueError('Answer count must be between 2 and 8.')
@@ -271,8 +454,11 @@ def make_targets(choices, fallacies, rng):
     bx,by,bw,bh=bounds
     width,height,factor=(s.LABEL_WIDTH,44,1.0) if count<=3 else (s.DENSE_LABEL_WIDTH,34,s.DENSE_SPEED_FACTOR)
     p=s.TARGET_PADDING
-    # Random sequential packing is used ONLY before the hidden targets appear.
-    # No spawn grid becomes a movement zone: all targets retain the same bounds.
+    # Operation: Random sequential packing is used ONLY before the hidden targets
+    #     appear. No spawn grid becomes a movement zone: all targets retain the same
+    #     bounds.
+    # Input: Shared board interior, label sizes, spawn gap, and session RNG.
+    # Output: Separated hidden start positions; failed packing raises ValueError.
     positions=[]
     for attempt in range(100):
         positions=[]
@@ -286,6 +472,11 @@ def make_targets(choices, fallacies, rng):
             else:break
         if len(positions)==count:break
     else:raise ValueError('Answer box cannot fit the configured labels and spawn gap.')
+    # Operation: All randomness below initializes hidden state before the round is
+    #     visible.
+    # Input: Packed positions, fallacy names, and session RNG.
+    # Output: Independent hidden steering states; every target retains the full shared
+    #     bounds.
     targets=[]
     for id_,position in zip(choices,positions):
         local=random.Random(rng.getrandbits(64))
