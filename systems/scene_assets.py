@@ -1,6 +1,4 @@
 
-import math
-from functools import lru_cache
 import pygame
 import settings as s
 
@@ -23,14 +21,9 @@ class SceneAssets:
         self.chef = Chef()
 
         self.background = self.load_background()
-        self.board = self.load_board()
         self.table = self.load_table()
 
         self.chef_expression = "listening"
-
-        self.board_shadow = self.make_shadow(
-            (s.BOARD_RECT[2], s.BOARD_RECT[3])
-        )
 
     def load_background(self):
         source = pygame.image.load(str(s.COURTROOM_ASSET)).convert()
@@ -52,25 +45,13 @@ class SceneAssets:
         result.blit(image, (0, 0), (x, y, s.WIDTH, s.HEIGHT))
         return result
 
-    def load_board(self):
-        source = pygame.image.load(str(s.BOARD_ASSET)).convert_alpha()
-        width = s.BOARD_RECT[2]
-        height = s.BOARD_RECT[3]
-        return pygame.transform.smoothscale(source, (width, height))
-
     def load_table(self):
         source = pygame.image.load(str(s.TABLE_ASSET)).convert_alpha()
+        bounds = source.get_bounding_rect()
+        source = source.subsurface(bounds).copy()
         width = s.FRONT_DESK_FOREGROUND[2]
-        height = s.FRONT_DESK_FOREGROUND[3]
+        height = round(source.get_height() * width / source.get_width())
         return pygame.transform.smoothscale(source, (width, height))
-
-    @staticmethod
-    @lru_cache(maxsize=16)
-    def make_shadow(size):
-        width, height = size
-        shadow = pygame.Surface((width, height), pygame.SRCALPHA)
-        pygame.draw.ellipse(shadow, (0, 0, 0, 65), shadow.get_rect())
-        return shadow
 
     def update_chef(self, dt, expression):
         if expression != self.chef_expression:
@@ -84,16 +65,23 @@ class SceneAssets:
     def draw_courtroom(self, screen, session):
         screen.blit(self.background, (0, 0))
 
-        chef_width, chef_height = s.CHEF_PORTRAIT_SIZE
+        frame_width, frame_height = self.chef.frames[0].get_size()
+        portrait_width, portrait_height = s.CHEF_PORTRAIT_SIZE
+        chef_scale = min(
+            portrait_width / frame_width,
+            portrait_height / frame_height,
+        )
+        chef_width = round(frame_width * chef_scale)
+        chef_height = round(frame_height * chef_scale)
         chef_position = (
             s.CHEF_ANCHOR[0] - chef_width // 2,
-            s.CHEF_ANCHOR[1] - chef_height,
+            s.CHEF_ANCHOR[1] - chef_height // 2,
         )
-        self.chef.draw(screen, position=chef_position, scale=1.0)
+        self.chef.draw(screen, position=chef_position, scale=chef_scale)
 
-        board_rect = pygame.Rect(s.BOARD_RECT)
-        screen.blit(self.board_shadow, board_rect.move(0, 8))
-        screen.blit(self.board, board_rect)
+        # Draw the table before the foreground characters so they stay on top.
+        desk = pygame.Rect(s.FRONT_DESK_FOREGROUND)
+        screen.blit(self.table, desk.topleft)
 
         if self.knife.frames:
             knife_frame = self.KNIFE_EXPRESSIONS.get(
@@ -116,7 +104,3 @@ class SceneAssets:
             shake_time=session.banner_elapsed,
             shake_duration=session.banner_duration,
         )
-
-        # Draw the table image in the foreground.
-        desk = pygame.Rect(s.FRONT_DESK_FOREGROUND)
-        screen.blit(self.table, desk.topleft)

@@ -218,20 +218,15 @@ class Court(Scene):
             offset=round(s.BOARD_SLIDE_DISTANCE*(1-progress)**2)
             alpha=round(255*progress)
         else:offset=0;alpha=255
-        # Operation: Composite once so board art, shadows, and labels slide/fade in
-        #     lockstep.
-        # Input: Board artwork, shadow, target render state, and board progress.
-        # Output: One translated/alpha-composited layer so all board elements move
-        #     together.
+        # Operation: Composite the moving answer labels with their existing
+        #     slide/fade transition.
+        # Input: Target render state and board progress.
+        # Output: One translated/alpha-composited label layer; board artwork remains
+        #     hidden.
         layer=self.board_layer
         layer.fill((0,0,0,0))
-        assets=self.game.scene_assets
-        x,y,_,_=s.BOARD_RECT
-        layer.blit(assets.board_shadow,(x-16,y-6))
-        layer.blit(assets.board,(x,y))
-        if session.stage!='BOARD_ENTER':
-            for target in session.targets:
-                self.target_renderer.draw(layer,target,len(session.targets),session.stage)
+        for target in session.targets:
+            self.target_renderer.draw(layer,target,len(session.targets),session.stage)
         layer.set_alpha(alpha)
         screen.blit(layer,(0,offset))
 

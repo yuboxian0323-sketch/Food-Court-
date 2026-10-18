@@ -2,6 +2,7 @@
 """Manage the game window, session, scenes, and main loop."""
 
 import asyncio
+import os
 import time
 
 import pygame
@@ -41,6 +42,8 @@ class Game:
     """Manage game state and the asynchronous main loop."""
 
     def __init__(self):
+        # Let the click that focuses the SDL window activate its control too.
+        os.environ.setdefault("SDL_MOUSE_FOCUS_CLICKTHROUGH", "1")
         pygame.display.init()
         pygame.font.init()
 

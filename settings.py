@@ -91,21 +91,21 @@ TABLE_ASSET = ROOT / "assets/tables.png"
 
 
 #Positioning of assets
-KNIFE_ANCHOR = (240, 518)
+KNIFE_ANCHOR = (140, 388)
 KNIFE_WIDTH = 380
-TOMATO_ANCHOR = (1050, 520)
+TOMATO_ANCHOR = (1050, 470)
 TOMATO_WIDTH = 220
-CHEF_ANCHOR = (640, 598)
-CHEF_PORTRAIT_SIZE = (380, 440)
+CHEF_ANCHOR = (640, 360)
+CHEF_PORTRAIT_SIZE = (340, 500)
 CENTRAL_BENCH_FOREGROUND = (330, 424, 620, 162)
-FRONT_DESK_FOREGROUND = (0, 608, 1280, 112)
-HUD = (28, 16, 1224, 46)
+FRONT_DESK_FOREGROUND = (0, 458, 1280, 488) #(x, y, width, height) of the front desk foreground in the table asset
+HUD = (28, 16, 1224, 46) 
 DIALOGUE = (100, 550, 1080, 120)
 BOARD_RECT = (280, 100, 720, 600)
 # Operation: Safe wood only: below the rotated handle and inset from curved outer edges.
 # Input: Rotated board silhouette, handle location, and curved borders.
 # Output: Shared LABEL_REGION excluding non-wood areas for complete label rectangles.
-LABEL_REGION = (326, 258, 628, 390)
+LABEL_REGION = (326, 58, 628, 390)
 ACTION = (540, 654, 200, 48)
 BOARD_ENTER_DURATION = 0.35
 BOARD_EXIT_DURATION = 0.25
@@ -119,6 +119,6 @@ BANNER_OUT_DURATION = 0.25
 # Output: OBJECTION_DURATION remains a public alias for their total.
 OBJECTION_DURATION = BANNER_IN_DURATION + BANNER_HOLD_DURATION + BANNER_OUT_DURATION
 BANNER_HEIGHT = 132
-BANNER_CENTER_Y = 360
+BANNER_CENTER_Y = 160
 WRONG_BANNER_TEXT = 'INCORRECT!'
 TIMEOUT_BANNER_TEXT = "TIME'S UP!"

@@ -143,7 +143,7 @@ class UI:
 
 
 def clicked(event, rect):
-    """Return whether a left-button press lands in an integer scene-pixel rect.
+    """Return whether a left-button press lands inside a rect.
 
     Operation:
         Check a left-button press against integer scene coordinates.
@@ -152,4 +152,8 @@ def clicked(event, rect):
     Output:
         Returns bool; does not consume events or change game state.
     """
-    return event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and pygame.Rect(rect).collidepoint(event.pos)
+    return (
+        event.type == pygame.MOUSEBUTTONDOWN
+        and event.button == 1
+        and pygame.Rect(rect).collidepoint(event.pos)
+    )
